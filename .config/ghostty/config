@@ -1,0 +1,15 @@
+cursor-style = block
+shell-integration-features = no-cursor
+font-family = "Hack Nerd Font Mono"
+font-size = 14
+term=xterm-256color
+macos-titlebar-style = tabs
+window-width = 100000
+window-height = 100000
+theme = Catppuccin Macchiato
+window-padding-x = 10
+window-padding-y = 10
+window-decoration = none
+confirm-close-surface = false
+copy-on-select = clipboard
+mouse-shift-capture = false
