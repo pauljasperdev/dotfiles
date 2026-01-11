@@ -3,9 +3,8 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
 
--- vim.keymap.set("n", "<C-j>", ":cnext<CR>", opts)
--- vim.keymap.set("n", "<C-k>", ":cprevious<CR>", opts)
-
+vim.keymap.set("n", "L", ":cnext<CR>", opts)
+vim.keymap.set("n", "H", ":cprevious<CR>", opts)
 
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
