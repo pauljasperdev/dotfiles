@@ -75,6 +75,6 @@ return {
 			end,
 		})
 
-		require("wlsample.airline")
+		require("wlsample.bubble2")
 	end,
 }
