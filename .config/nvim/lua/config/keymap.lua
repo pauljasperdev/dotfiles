@@ -32,3 +32,13 @@ vim.keymap.set("n", "<leader>R", function()
 		end
 	end)
 end, opts)
+
+-- Toggle format-on-save (conform.nvim)
+vim.keymap.set("n", "<leader>fm", function()
+	vim.g.disable_autoformat = not vim.g.disable_autoformat
+	if vim.g.disable_autoformat then
+		vim.notify("Format on save: OFF")
+	else
+		vim.notify("Format on save: ON")
+	end
+end, { noremap = true, silent = true, desc = "Toggle format on save" })
