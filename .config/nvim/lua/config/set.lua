@@ -10,6 +10,9 @@ vim.o.number = true -- show absolute line numbers (see NumberToggle below)
 vim.o.numberwidth = 1 -- keep gutter narrow
 vim.o.signcolumn = "yes" -- avoid text shifting when signs appear
 
+-- Completion menu behavior (important for built-in LSP completion UI)
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
 -- Indentation
 vim.o.tabstop = 2 -- visual width of a <Tab>
 vim.o.shiftwidth = 2 -- indent size for >>/<<, autoindent, etc.

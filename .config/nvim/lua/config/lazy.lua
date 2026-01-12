@@ -17,11 +17,13 @@ vim.opt.rtp:prepend(lazypath)
 
 require("config.set")
 require("config.keymap")
+require("config.lsp")
 
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
+		{ import = "plugins.lsp" },
 	},
 	checker = {
 		enabled = true,
