@@ -154,6 +154,9 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# git
+alias dotfiles='git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
+
 # starship theme !!! HAS TO BE AT THE END !!!
 eval "$(starship init zsh)"
 
