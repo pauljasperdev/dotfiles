@@ -7,6 +7,10 @@
 !.config/nvim/**
 !.config/ghostty/
 !.config/ghostty/**
+!.config/opencode/
+!.config/opencode/**
+!.config/opencode/agent/
+!.config/opencode/agent/**
 
 !.tmux.conf
 !.zshrc
