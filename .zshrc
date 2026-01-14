@@ -110,15 +110,15 @@ alias ohmyzsh="mate ~/.oh-my-zsh"
 export PATH="/opt/homebrew/bin:$PATH"
 
 # zsh-completions must be BEFORE compinit runs (OMZ runs compinit)
-fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
+#fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
 
 plugins=(git)
 
 source "$ZSH/oh-my-zsh.sh"
 
 # After OMZ
-source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+#source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+#source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Prompt (near the end)
 eval "$(starship init zsh)"
@@ -157,6 +157,21 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # git
 alias dotfiles='git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
 
+#WSL Specifics
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+export AWS_VAULT_BACKEND=pass
+export GPG_TTY=$TTY
+source <(fzf --zsh)
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH=/home/paul/.opencode/bin:$PATH
+
+pr() {
+  uv run poe "$@"
+}
+
 # starship theme !!! HAS TO BE AT THE END !!!
 eval "$(starship init zsh)"
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+. "$HOME/.local/bin/env"

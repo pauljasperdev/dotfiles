@@ -7,6 +7,11 @@ vim.keymap.set("n", "L", ":cnext<CR>", opts)
 vim.keymap.set("n", "H", ":cprevious<CR>", opts)
 
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+
+-- Completion navigation
+vim.keymap.set("i", "<C-j>", "<C-n>", { noremap = true, silent = true, desc = "Next completion item" })
+vim.keymap.set("i", "<C-k>", "<C-p>", { noremap = true, silent = true, desc = "Prev completion item" })
+
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- window management
