@@ -164,7 +164,9 @@ export GPG_TTY=$TTY
 source <(fzf --zsh)
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PATH=/home/paul/.opencode/bin:$PATH
-
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. "$HOME/.local/bin/env"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 pr() {
   uv run poe "$@"
 }
@@ -172,6 +174,4 @@ pr() {
 # starship theme !!! HAS TO BE AT THE END !!!
 eval "$(starship init zsh)"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-. "$HOME/.local/bin/env"
