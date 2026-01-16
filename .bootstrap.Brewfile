@@ -1,5 +1,3 @@
-tap "homebrew/bundle"
-tap "homebrew/cask"
 tap "oven-sh/bun"
 tap "opencode-ai/tap"
 
