@@ -1,2 +1,2 @@
 # uv
-export PATH="/Users/paul/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

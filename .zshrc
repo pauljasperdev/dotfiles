@@ -107,21 +107,33 @@ alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Homebrew path
-export PATH="/opt/homebrew/bin:$PATH"
+# Keep this simple and path-based so zsh remains usable even
+# when the shell is started without reading ~/.zprofile.
+if [[ -d "/home/linuxbrew/.linuxbrew/bin" ]] && [[ ":$PATH:" != *":/home/linuxbrew/.linuxbrew/bin:"* ]]; then
+  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+elif [[ -d "/opt/homebrew/bin" ]] && [[ ":$PATH:" != *":/opt/homebrew/bin:"* ]]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+fi
 
 # zsh-completions must be BEFORE compinit runs (OMZ runs compinit)
-fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
+if command -v brew >/dev/null 2>&1; then
+  fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
+fi
 
 plugins=(git)
 
 source "$ZSH/oh-my-zsh.sh"
 
 # After OMZ
-source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if command -v brew >/dev/null 2>&1; then
+  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
 
 # Prompt (near the end)
-eval "$(starship init zsh)"
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 # lds ls
 alias ls='lsd'
@@ -148,7 +160,7 @@ if type brew &>/dev/null; then
 fi
 
 # bun completions
-[ -s "/Users/paul/.bun/_bun" ] && source "/Users/paul/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -160,6 +172,8 @@ alias dotfiles='git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # starship theme !!! HAS TO BE AT THE END !!!
-eval "$(starship init zsh)"
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 
