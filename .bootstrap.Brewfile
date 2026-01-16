@@ -7,6 +7,7 @@ brew "git"
 brew "bash"
 brew "tmux"
 brew "neovim"
+brew "rsync"
 
 # Shell + prompt
 brew "starship"
@@ -35,6 +36,7 @@ brew "bun"
 # Python tooling referenced by your Neovim config
 brew "python"
 brew "ruff"
+brew "uv"
 
 # AI tooling
 brew "opencode"

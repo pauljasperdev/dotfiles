@@ -26,6 +26,7 @@ sudo apt-get install -y \
   ca-certificates \
   curl \
   git \
+  rsync \
   unzip \
   build-essential \
   pkg-config \
@@ -36,6 +37,8 @@ sudo apt-get install -y \
   ripgrep \
   fzf \
   fd-find \
+  nodejs \
+  npm \
   python3 \
   python3-pip \
   python3-venv \

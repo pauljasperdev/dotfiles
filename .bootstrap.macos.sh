@@ -10,10 +10,17 @@ if [ "$(uname -s)" != "Darwin" ]; then
   exit 1
 fi
 
-# 0) Install everything from Brewfile
+# 0) Install Homebrew + everything from Brewfile
 if ! command -v brew >/dev/null 2>&1; then
-  log "Homebrew not found. Install it from https://brew.sh and re-run."
-  exit 1
+  log "Homebrew not found; installing"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  # Ensure `brew` is available in this non-interactive script
+  if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
 fi
 
 log "Running brew bundle"
