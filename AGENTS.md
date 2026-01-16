@@ -31,16 +31,21 @@ Notes:
 Run the OS-specific bootstrap script after the move:
 
 ```sh
-# macOS (installs Homebrew, then `brew bundle`)
+# macOS
 ~/.bootstrap.macos.sh
 
-# Debian/Ubuntu (installs packages via apt)
+# Debian/Ubuntu
 ~/.bootstrap.debian.sh
 ```
 
 Notes:
-- macOS installs `uv` via Homebrew.
-- Debian/Ubuntu installs `uv` via `curl -LsSf https://astral.sh/uv/install.sh | sh` (installs into `~/.local/bin`).
+- All cross-platform dependencies live in `~/.bootstrap.brewfile` and are installed via `brew bundle`.
+- Prefer Homebrew (macOS + Linux) over ad-hoc installers.
+- Only use curl installers when a dependency is not available via Homebrew.
+- `oh-my-zsh` is installed via the upstream installer (not `git clone`).
+- `tmux` TPM/plugins are not installed by bootstrap scripts (manual on first tmux run).
+- On Debian/Ubuntu, Docker Engine is installed via apt (`docker.io` + `docker-compose-plugin`).
+- On Linux, Nerd Fonts are installed via script (Homebrew font casks are macOS-only).
 
 ## Linux sandbox (e.g. Lima)
 
@@ -48,7 +53,7 @@ Notes:
 - The Debian bootstrap script (`~/.bootstrap.debian.sh`) expects:
   - Debian/Ubuntu (`/etc/debian_version` exists)
   - `sudo` available (and ideally passwordless for the provisioned user)
-  - network access (installs packages and runs curl installers)
+  - network access (installs packages, Homebrew, and fonts)
 
 If you’re provisioning a minimal VM/container, install prerequisites first:
 
@@ -57,4 +62,4 @@ sudo apt-get update -y
 sudo apt-get install -y sudo rsync git
 ```
 
-Note: `.bootstrap.debian.sh` installs `nodejs` + `npm` via apt; these are required for `pnpm` fallback and `prettierd` installs.
+Note: `.bootstrap.debian.sh` installs only minimal apt prerequisites; language/tooling deps are handled by `~/.bootstrap.brewfile` via Homebrew.

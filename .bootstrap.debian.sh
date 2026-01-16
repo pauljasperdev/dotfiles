@@ -20,125 +20,56 @@ if ! command -v sudo >/dev/null 2>&1; then
   exit 1
 fi
 
-log "Installing apt packages"
+log "Installing apt packages (Homebrew prereqs + Docker)"
 sudo apt-get update -y
 sudo apt-get install -y \
   ca-certificates \
-  curl \
-  git \
-  rsync \
-  unzip \
   build-essential \
-  pkg-config \
-  zsh \
-  bash \
-  tmux \
-  neovim \
-  ripgrep \
-  fzf \
-  fd-find \
-  nodejs \
-  npm \
-  python3 \
-  python3-pip \
-  python3-venv \
-  pipx \
-  xclip \
-  wl-clipboard \
+  procps \
+  curl \
+  file \
+  git \
+  unzip \
+  fontconfig \
   docker.io \
   docker-compose-plugin
 
-# 0) Ensure ~/.local/bin is on PATH (uv/pipx installs there)
-mkdir -p "$HOME/.local/bin"
-export PATH="$HOME/.local/bin:$PATH"
+# 0) Install Homebrew + everything from Brewfile
+if ! command -v brew >/dev/null 2>&1; then
+  log "Homebrew not found; installing"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# 0.1) uv (Python tooling)
-if ! command -v uv >/dev/null 2>&1; then
-  log "Installing uv"
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-else
-  log "uv already present"
-fi
-
-# 1) Install OpenCode (official installer supports Linux)
-if ! command -v opencode >/dev/null 2>&1; then
-  log "Installing opencode"
-  curl -fsSL https://opencode.ai/install | bash
-else
-  log "opencode already present"
-fi
-
-# 2) Install Claude Code (official installer supports Linux)
-if ! command -v claude >/dev/null 2>&1; then
-  log "Installing Claude Code"
-  curl -fsSL https://claude.ai/install.sh | bash
-else
-  log "claude already present"
-fi
-
-# 3) Node tooling (needed by prettierd, opencode plugins, etc.)
-# Debian/Ubuntu node versions vary; we start with apt's nodejs if present.
-if ! command -v node >/dev/null 2>&1; then
-  log "node not found after apt install (unexpected)."
-else
-  if command -v corepack >/dev/null 2>&1; then
-    log "Enabling corepack (pnpm)"
-    corepack enable || true
-    corepack prepare pnpm@latest --activate || true
+  # Ensure `brew` is available in this non-interactive script
+  if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  elif [ -x "$HOME/.linuxbrew/bin/brew" ]; then
+    eval "$("$HOME/.linuxbrew/bin/brew" shellenv)"
   fi
 fi
 
-# 4) Install pnpm if corepack wasn't available
-if ! command -v pnpm >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
-  log "Installing pnpm via npm"
-  sudo npm install -g pnpm
+log "Running brew bundle"
+brew bundle --file "$HOME/.bootstrap.brewfile"
+
+# 1) oh-my-zsh (not provided by Homebrew)
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  log "Installing oh-my-zsh"
+  ZSH="$HOME/.oh-my-zsh" RUNZSH=no CHSH=no KEEP_ZSHRC=yes \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+  log "oh-my-zsh already present"
 fi
 
-# 5) Install bun (official installer)
-if ! command -v bun >/dev/null 2>&1; then
-  log "Installing bun"
-  curl -fsSL https://bun.sh/install | bash
-  # bun installs to ~/.bun/bin
-  export PATH="$HOME/.bun/bin:$PATH"
+# 2) fzf shell integration
+# Your .zshrc sources ~/.fzf.zsh; this file is created by the fzf install script.
+FZF_INSTALL="$(brew --prefix)/opt/fzf/install"
+if [ -x "$FZF_INSTALL" ]; then
+  log "Configuring fzf shell integration"
+  "$FZF_INSTALL" --key-bindings --completion --no-update-rc
+else
+  log "fzf install script not found (is fzf installed via brew?)"
 fi
 
-# 6) Neovim formatter deps referenced by your conform.nvim config
-# - prettierd: npm package @fsouza/prettierd
-# - stylua: install via cargo (Debian package rustc/cargo is good enough)
-# - ruff: install via pipx
-if command -v npm >/dev/null 2>&1 && ! command -v prettierd >/dev/null 2>&1; then
-  log "Installing prettierd"
-  sudo npm install -g @fsouza/prettierd
-fi
-
-if ! command -v cargo >/dev/null 2>&1; then
-  log "Installing cargo (for stylua)"
-  sudo apt-get install -y cargo
-fi
-
-if command -v cargo >/dev/null 2>&1 && ! command -v stylua >/dev/null 2>&1; then
-  log "Installing stylua (cargo)"
-  cargo install stylua
-fi
-
-if ! command -v ruff >/dev/null 2>&1; then
-  log "Installing ruff (pipx)"
-  pipx ensurepath || true
-  pipx install ruff
-fi
-
-# 7) fzf shell integration
-# Your .zshrc sources ~/.fzf.zsh. Generate it if fzf supports it.
-if command -v fzf >/dev/null 2>&1; then
-  if fzf --help 2>/dev/null | rg -q "--zsh"; then
-    log "Generating ~/.fzf.zsh"
-    fzf --zsh > "$HOME/.fzf.zsh"
-  else
-    log "fzf --zsh not supported; install fzf from upstream or Homebrew for shell integration"
-  fi
-fi
-
-# 8) Nerd font (Hack Nerd Font) for icons (Ghostty/Powerline/etc)
+# 3) Nerd font (Hack Nerd Font) for icons
 # Installs into ~/.local/share/fonts
 FONT_DIR="$HOME/.local/share/fonts"
 if command -v fc-cache >/dev/null 2>&1; then
@@ -153,24 +84,17 @@ if command -v fc-cache >/dev/null 2>&1; then
   fi
 fi
 
-# 9) oh-my-zsh + tmux TPM
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  log "Installing oh-my-zsh (git clone)"
-  git clone https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
+# 4) Install local deps for ~/.config/opencode (it has bun.lock)
+if [ -d "$HOME/.config/opencode" ]; then
+  if command -v bun >/dev/null 2>&1; then
+    log "Installing ~/.config/opencode dependencies (bun install)"
+    (cd "$HOME/.config/opencode" && bun install)
+  else
+    log "bun not found; check ~/.bootstrap.brewfile"
+  fi
 fi
 
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-  log "Installing tmux TPM (git clone)"
-  git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
-fi
-
-# 10) Install local deps for ~/.config/opencode (it has bun.lock)
-if [ -d "$HOME/.config/opencode" ] && command -v bun >/dev/null 2>&1; then
-  log "Installing ~/.config/opencode dependencies (bun install)"
-  (cd "$HOME/.config/opencode" && bun install)
-fi
-
-# 11) Docker group permissions
+# 5) Docker group permissions
 if command -v docker >/dev/null 2>&1; then
   if ! getent group docker >/dev/null 2>&1; then
     log "Creating docker group"

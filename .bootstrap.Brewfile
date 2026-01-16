@@ -5,6 +5,7 @@ tap "oven-sh/bun"
 # Core tooling
 brew "git"
 brew "bash"
+brew "zsh"
 brew "tmux"
 brew "neovim"
 brew "rsync"
@@ -26,7 +27,9 @@ brew "prettierd"
 brew "stylua"
 
 # Neovim (img-clip.nvim on macOS)
-brew "pngpaste"
+if RUBY_PLATFORM.include?("darwin")
+  brew "pngpaste"
+end
 
 # JS/tooling
 brew "node"
@@ -42,11 +45,15 @@ brew "uv"
 brew "opencode"
 
 # Terminal + fonts
-cask "ghostty"
-cask "font-hack-nerd-font"
+if RUBY_PLATFORM.include?("darwin")
+  cask "ghostty"
+  cask "font-hack-nerd-font"
+end
 
 # Containers
-cask "docker-desktop"
+if RUBY_PLATFORM.include?("darwin")
+  cask "docker-desktop"
+end
 
 # Claude Code CLI
 cask "claude-code"
