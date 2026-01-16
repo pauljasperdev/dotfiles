@@ -3,15 +3,23 @@
 !.gitignore
 
 !.config/
+
 !.config/nvim/
 !.config/nvim/**
+
 !.config/ghostty/
 !.config/ghostty/**
+
 !.config/opencode/
 !.config/opencode/**
 !.config/opencode/agent/
 !.config/opencode/agent/**
 
+!.config/git/
+!.config/git/**
+
+!.config/starship.toml
+
 !.tmux.conf
 !.zshrc
-!.config/starship.toml
+!.bootstrap.*

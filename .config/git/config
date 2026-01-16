@@ -1,0 +1,16 @@
+[user]
+	name = Paul Jasper
+	email = mail@pauljasper.dev
+[alias]
+  lol = log --graph --pretty=format:'%Cblue%h%Creset - %C(yellow)%s%Creset %C(white)(%cr)%Creset %C(magenta)<%an>%Creset %C(auto)%D%Creset' --abbrev-commit --all
+  l = log --reverse --pretty=format:'%Cblue%h%Creset - %C(yellow)%s%Creset %C(white)(%cr)%Creset %C(magenta)<%an>%Creset %C(auto)%D%Creset' --abbrev-commit --all
+  st = status -sb
+  cm = commit -m
+  lo = log --reverse --pretty=format:'%Cblue%h%Creset - %C(yellow)%s%Creset %C(white)(%cr)%Creset %C(magenta)<%an>%Creset %C(auto)%D%Creset' --abbrev-commit --first-parent
+[core]
+  pager = cat
+	editor = nvim -f
+[sequence]
+	editor = nvim -f
+[init]
+	defaultBranch = main
