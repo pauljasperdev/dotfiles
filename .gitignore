@@ -22,6 +22,8 @@
 
 !.tmux.conf
 !.zshrc
+!.zshenv
+!.zprofile
 !.bootstrap.*
 !README.md
 !AGENTS.md
