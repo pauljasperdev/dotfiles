@@ -11,7 +11,6 @@ brew "bash"
 brew "zsh"
 brew "tmux"
 brew "neovim"
-brew "rsync"
 
 # Shell + prompt
 brew "starship"
@@ -27,7 +26,6 @@ brew "fd"
 
 # Neovim formatter deps (conform.nvim)
 brew "prettierd"
-brew "stylua"
 
 # Neovim (img-clip.nvim on macOS)
 if RUBY_PLATFORM.include?("darwin")
