@@ -24,7 +24,7 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 log "Running brew bundle"
-brew bundle --file "$HOME/.bootstrap.brewfile"
+brew bundle --file "$HOME/.bootstrap.Brewfile"
 
 # 1) Ensure Xcode Command Line Tools (required for `make` builds for some Neovim plugins)
 if ! xcode-select -p >/dev/null 2>&1; then

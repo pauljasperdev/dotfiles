@@ -48,7 +48,7 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 log "Running brew bundle"
-brew bundle --file "$HOME/.bootstrap.brewfile"
+brew bundle --file "$HOME/.bootstrap.Brewfile"
 
 # 1) oh-my-zsh (not provided by Homebrew)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
