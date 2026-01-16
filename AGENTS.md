@@ -44,7 +44,7 @@ Notes:
 - Only use curl installers when a dependency is not available via Homebrew.
 - `oh-my-zsh` is installed via the upstream installer (not `git clone`).
 - `tmux` TPM/plugins are not installed by bootstrap scripts (manual on first tmux run).
-- On Debian/Ubuntu, Docker Engine is installed via apt (`docker.io` + `docker-compose-plugin`).
+- On Debian/Ubuntu, Docker Engine is installed via apt (`docker.io` + `docker-compose-v2`).
 - On Linux, Nerd Fonts are installed via script (Homebrew font casks are macOS-only).
 
 ## Linux sandbox (e.g. Lima)

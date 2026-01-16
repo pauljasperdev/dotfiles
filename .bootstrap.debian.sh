@@ -32,7 +32,7 @@ sudo apt-get install -y \
   unzip \
   fontconfig \
   docker.io \
-  docker-compose-plugin
+  docker-compose-v2
 
 # 0) Install Homebrew + everything from Brewfile
 if ! command -v brew >/dev/null 2>&1; then
