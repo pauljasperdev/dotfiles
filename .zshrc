@@ -78,8 +78,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-source $ZSH/oh-my-zsh.sh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -130,11 +128,6 @@ if command -v brew >/dev/null 2>&1; then
   source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-# Prompt (near the end)
-if command -v starship >/dev/null 2>&1; then
-  eval "$(starship init zsh)"
-fi
-
 # lds ls
 alias ls='lsd'
 alias l='ls -l'
@@ -150,14 +143,6 @@ alias oc='opencode'
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 alias pn='pnpm'
-
-# zsh completions
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
-fi
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
