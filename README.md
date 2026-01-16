@@ -19,7 +19,7 @@ git clone https://github.com/pauljasperdev/dotfiles ~/.dotfiles
 This overwrites top-level dotfiles like `~/.zshrc` and `~/.tmux.conf` and merges folders in `~/.config/`.
 
 ```sh
-~./.dotfiles/.bootstrap.move.sh
+~/.dotfiles/.bootstrap.move.sh
 ```
 
 </li>
