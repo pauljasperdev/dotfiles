@@ -1,6 +1,11 @@
 tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
+tap "homebrew/cask"
 tap "oven-sh/bun"
+tap "opencode-ai/tap"
+
+if RUBY_PLATFORM.include?("darwin")
+  tap "homebrew/cask-fonts"
+end
 
 # Core tooling
 brew "git"
@@ -34,7 +39,7 @@ end
 # JS/tooling
 brew "node"
 brew "pnpm"
-brew "bun"
+brew "oven-sh/bun/bun"
 
 # Python tooling referenced by your Neovim config
 brew "python"
@@ -42,7 +47,7 @@ brew "ruff"
 brew "uv"
 
 # AI tooling
-brew "opencode"
+brew "opencode-ai/tap/opencode"
 
 # Terminal + fonts
 if RUBY_PLATFORM.include?("darwin")

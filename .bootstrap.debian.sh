@@ -84,16 +84,6 @@ if command -v fc-cache >/dev/null 2>&1; then
   fi
 fi
 
-# 4) Install local deps for ~/.config/opencode (it has bun.lock)
-if [ -d "$HOME/.config/opencode" ]; then
-  if command -v bun >/dev/null 2>&1; then
-    log "Installing ~/.config/opencode dependencies (bun install)"
-    (cd "$HOME/.config/opencode" && bun install)
-  else
-    log "bun not found; check ~/.bootstrap.brewfile"
-  fi
-fi
-
 # 5) Docker group permissions
 if command -v docker >/dev/null 2>&1; then
   if ! getent group docker >/dev/null 2>&1; then
