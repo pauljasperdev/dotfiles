@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
-
 log() {
   printf "[%s] %s\n" "$(date +%H:%M:%S)" "$*"
 }
 
 if [ "$(uname -s)" != "Linux" ]; then
-  log "Not Linux. Use bootstrap.macos.sh instead."
+  log "Not Linux."
   exit 1
 fi
 

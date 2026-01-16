@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
-
 log() {
   printf "[%s] %s\n" "$(date +%H:%M:%S)" "$*"
 }
 
 if [ "$(uname -s)" != "Darwin" ]; then
-  log "Not macOS (Darwin). Use bootstrap.debian.sh instead."
+  log "Not macOS (Darwin)."
   exit 1
 fi
 
@@ -19,7 +17,7 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 log "Running brew bundle"
-brew bundle --file "$DOTFILES_DIR/Brewfile"
+brew bundle --file "$HOME/.bootstrap.Brewfile"
 
 # 1) Ensure Xcode Command Line Tools (required for `make` builds for some Neovim plugins)
 if ! xcode-select -p >/dev/null 2>&1; then
@@ -59,7 +57,7 @@ if [ -d "$HOME/.config/opencode" ]; then
     log "Installing ~/.config/opencode dependencies (bun install)"
     (cd "$HOME/.config/opencode" && bun install)
   else
-    log "bun not found; check Brewfile install"
+    log "bun not found; check .bootstrap.Brewfile install"
   fi
 fi
 
