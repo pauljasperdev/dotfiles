@@ -48,8 +48,17 @@ sudo apt-get install -y \
   docker.io \
   docker-compose-plugin
 
-# 0) Ensure ~/.local/bin is on PATH (pipx installs there)
+# 0) Ensure ~/.local/bin is on PATH (uv/pipx installs there)
 mkdir -p "$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
+
+# 0.1) uv (Python tooling)
+if ! command -v uv >/dev/null 2>&1; then
+  log "Installing uv"
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+  log "uv already present"
+fi
 
 # 1) Install OpenCode (official installer supports Linux)
 if ! command -v opencode >/dev/null 2>&1; then

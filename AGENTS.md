@@ -38,6 +38,10 @@ Run the OS-specific bootstrap script after the move:
 ~/.bootstrap.debian.sh
 ```
 
+Notes:
+- macOS installs `uv` via Homebrew.
+- Debian/Ubuntu installs `uv` via `curl -LsSf https://astral.sh/uv/install.sh | sh` (installs into `~/.local/bin`).
+
 ## Linux sandbox (e.g. Lima)
 
 - The move script (`~/.dotfiles/.bootstrap.move.sh`) requires `rsync`.
