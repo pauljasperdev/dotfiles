@@ -27,9 +27,6 @@ brew "fd"
 # Neovim formatter deps (conform.nvim)
 brew "prettierd"
 
-# Treesitter CLI (required by some parsers)
-brew "tree-sitter"
-
 # Neovim (img-clip.nvim on macOS)
 if RUBY_PLATFORM.include?("darwin")
   brew "pngpaste"

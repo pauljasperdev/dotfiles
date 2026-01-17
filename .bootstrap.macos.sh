@@ -26,6 +26,18 @@ fi
 log "Running brew bundle"
 brew bundle --file "$HOME/.bootstrap.Brewfile"
 
+# nvim-treesitter requires tree-sitter CLI.
+if ! command -v tree-sitter >/dev/null 2>&1; then
+  if command -v npm >/dev/null 2>&1; then
+    log "tree-sitter not found; installing tree-sitter-cli via npm"
+    npm install -g tree-sitter-cli
+  else
+    log "tree-sitter not found and npm missing; skipping tree-sitter-cli install"
+  fi
+else
+  log "tree-sitter already present"
+fi
+
 # 1) Ensure Xcode Command Line Tools (required for `make` builds for some Neovim plugins)
 if ! xcode-select -p >/dev/null 2>&1; then
   log "Xcode Command Line Tools not found."
