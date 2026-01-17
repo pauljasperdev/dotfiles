@@ -138,6 +138,9 @@ alias lt='ls --tree'
 alias nv='nvim'
 alias oc='opencode'
 
+# enter lima vm with zsh shell $ limashell agent-sandbox
+alias limashell='limactl shell --shell /home/linuxbrew/.linuxbrew/bin/zsh'
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
