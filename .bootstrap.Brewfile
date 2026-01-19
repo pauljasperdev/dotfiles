@@ -43,7 +43,7 @@ brew "ruff"
 brew "uv"
 
 # AI tooling
-brew "opencode-ai/tap/opencode"
+brew "anomalyco/tap/opencode"
 
 # Terminal + fonts
 if RUBY_PLATFORM.include?("darwin")
