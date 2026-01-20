@@ -25,6 +25,8 @@
 !.zshrc
 !.zshenv
 !.zprofile
+!.profile
+!.bashrc
 !.bootstrap.*
 !README.md
 !AGENTS.md
