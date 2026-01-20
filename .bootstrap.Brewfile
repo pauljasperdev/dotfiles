@@ -1,5 +1,5 @@
 tap "oven-sh/bun"
-tap "opencode-ai/tap"
+tap "anomalyco/tap"
 
 if RUBY_PLATFORM.include?("darwin")
   tap "homebrew/cask-fonts"
