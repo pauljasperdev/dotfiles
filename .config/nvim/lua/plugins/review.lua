@@ -1,5 +1,5 @@
 return {
-	"georgeguimaraes/review.nvim",
+	"pauljasperdev/review.nvim",
 	dependencies = {
 		"esmuellert/codediff.nvim",
 		"MunifTanjim/nui.nvim",
