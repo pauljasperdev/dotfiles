@@ -3,5 +3,32 @@
     "codeStyle": {
       "gitCommitCoAuthor": false
     }
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/gsd-prompt-inject.sh"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/gsd-test-gate.sh"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/gsd-security-gate.sh"
+          }
+        ]
+      }
+    ]
   }
 }

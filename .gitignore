@@ -15,8 +15,6 @@
 !.config/opencode/agent/
 !.config/opencode/agent/**
 
-!.claude/
-!.claude/**
 
 !.config/git/
 !.config/git/**
