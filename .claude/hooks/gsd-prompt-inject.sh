@@ -19,12 +19,7 @@ if echo "$PROMPT" | grep -qE '/gsd:(execute-plan|execute-phase)'; then
   if [ -f ".planning/codebase/TESTING.md" ]; then
     echo "### Testing Requirements (from .planning/codebase/TESTING.md)"
     echo ""
-    echo "Before marking any plan complete, you MUST run these tests:"
-    echo ""
-    # Extract test commands from TESTING.md
-    grep -E '^\s*-?\s*\`?(pnpm|npm|yarn|bun)\s+(test|check|lint|verify)' .planning/codebase/TESTING.md 2>/dev/null | head -10 || echo "- Read .planning/codebase/TESTING.md for test commands"
-    echo ""
-    echo "If tests fail, DO NOT mark the plan as complete. Fix the issues first."
+    echo "You MUST obey by the mandatory procedures."
     echo ""
   fi
 fi
@@ -40,6 +35,8 @@ if echo "$PROMPT" | grep -qE '/gsd:verify-work'; then
     echo "2. Review files changed in this phase against each category"
     echo "3. Log any findings to .planning/codebase/SECURITY-REVIEW.md"
     echo "4. Critical/High/Medium findings BLOCK completion"
+    echo "5. Uncheck and update completed plans if blocker issues where found."
+    echo "6. start /gsd:execute-plan agents to fix the issues."
     echo ""
   fi
 fi
@@ -49,8 +46,9 @@ if echo "$PROMPT" | grep -qE '/gsd:plan-phase'; then
   if [ -f ".planning/codebase/TESTING.md" ]; then
     echo "### Planning Reminder"
     echo ""
-    echo "Include testing verification in every plan's <verification> section."
+    echo "Include testing verification and security checks in every plan's <verification> section."
     echo "Read .planning/codebase/TESTING.md for project test commands."
+    echo "Read .planning/codebase/SECURITY-CHECKLIST.md for project security checks."
     echo ""
   fi
 fi
