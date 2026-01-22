@@ -15,28 +15,104 @@ return {
 				capabilities = capabilities,
 			})
 
-			local function root(markers)
-				return function(bufnr, on_dir)
-					local dir = vim.fs.root(bufnr, markers)
-					if dir then
-						on_dir(dir)
-					end
+			local function read_file(path)
+				local ok, contents = pcall(vim.fn.readfile, path)
+				if not ok then
+					return nil
 				end
+				return table.concat(contents, "\n")
 			end
 
 			local function find_uv_workspace_root(bufnr)
-				local start = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
-				local matches = vim.fs.find("pyproject.toml", { path = start, upward = true, stop = vim.loop.os_homedir() })
-				for _, match in ipairs(matches) do
-					local ok, contents = pcall(vim.fn.readfile, match)
-					if ok then
-						local text = table.concat(contents, "\n")
-						if text:match("%[tool%.uv%.workspace%]") then
-							return vim.fs.dirname(match)
+				local dir = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+				local home = vim.loop.os_homedir()
+				local uv_root = nil
+				while dir and dir ~= "" and dir ~= home do
+					local candidate = dir .. "/pyproject.toml"
+					local text = read_file(candidate)
+					if text and text:match("%[tool%.uv%.workspace%]") then
+						uv_root = dir
+					end
+					local parent = vim.fs.dirname(dir)
+					if parent == dir then
+						break
+					end
+					dir = parent
+				end
+				return uv_root
+			end
+
+			local function parse_uv_workspace_members(root_dir)
+				local text = read_file(root_dir .. "/pyproject.toml")
+				if not text then
+					return {}
+				end
+				local section = text:match("%[tool%.uv%.workspace%](.-)%[")
+				if not section then
+					section = text:match("%[tool%.uv%.workspace%](.*)")
+				end
+				if not section then
+					return {}
+				end
+				local members = {}
+				for member in section:gmatch('"(.-)"') do
+					table.insert(members, member)
+				end
+				return members
+			end
+
+			local function is_ignored_path(path)
+				return path:find("/%.venv/")
+					or path:find("/%.git/")
+					or path:find("/node_modules/")
+					or path:find("/dist/")
+			end
+
+			local function find_python_extra_paths(root_dir)
+				local extra_paths = {}
+				local members = parse_uv_workspace_members(root_dir)
+				if #members > 0 then
+					for _, member in ipairs(members) do
+						local member_root = root_dir .. "/" .. member
+						local member_src = member_root .. "/src"
+						if vim.fn.isdirectory(member_src) == 1 then
+							table.insert(extra_paths, member_src)
+						elseif vim.fn.isdirectory(member_root) == 1 then
+							table.insert(extra_paths, member_root)
 						end
 					end
+					return extra_paths
 				end
-				return nil
+
+				local src_dirs = vim.fs.find("src", { path = root_dir, type = "directory", limit = 200 })
+				for _, src_dir in ipairs(src_dirs) do
+					if not is_ignored_path(src_dir) then
+						table.insert(extra_paths, src_dir)
+					end
+				end
+				return extra_paths
+			end
+
+			local function apply_pyright_settings(target, root_dir)
+				local uv_root = find_uv_workspace_root(vim.api.nvim_get_current_buf()) or root_dir
+				local extra_paths = find_python_extra_paths(uv_root)
+				local venv_python = uv_root .. "/.venv/bin/python"
+				if vim.fn.filereadable(venv_python) ~= 1 then
+					venv_python = vim.fn.exepath("python3")
+					if venv_python == "" then
+						venv_python = vim.fn.exepath("python")
+					end
+				end
+				target.settings = target.settings or {}
+				local python_settings = target.settings.python or {}
+				python_settings.venvPath = uv_root
+				python_settings.venv = ".venv"
+				python_settings.pythonPath = venv_python
+				python_settings.analysis = python_settings.analysis or {}
+				if #extra_paths > 0 then
+					python_settings.analysis.extraPaths = extra_paths
+				end
+				target.settings.python = python_settings
 			end
 
 			-- Python
@@ -45,7 +121,7 @@ return {
 					local uv_root = find_uv_workspace_root(bufnr)
 					if uv_root then
 						on_dir(uv_root)
-						return
+						return uv_root
 					end
 
 					local dir = vim.fs.root(bufnr, {
@@ -59,12 +135,18 @@ return {
 					})
 					if dir then
 						on_dir(dir)
+						return dir
 					end
+				end,
+				on_init = function(client)
+					apply_pyright_settings(client.config, client.config.root_dir)
+					client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+				end,
+				on_new_config = function(new_config, root_dir)
+					apply_pyright_settings(new_config, root_dir)
 				end,
 				settings = {
 					python = {
-						venvPath = ".",
-						venv = ".venv",
 						analysis = {
 							typeCheckingMode = "basic",
 							autoSearchPaths = true,
