@@ -32,8 +32,8 @@ return {
 		require("telescope").load_extension("git_file_history")
 	end,
 	keys = {
-		{ "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Find files" },
+		{ "<leader>ff", "<cmd>Telescope git_files<cr>", desc = "Find files" },
 		{ "<leader>fa", "<cmd>Telescope find_files<cr>", desc = "Find all files" },
-		{ "<leader>fi", "<cmd>Telescope live_grep<cr>", desc = "Find in files" },
+		{ "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find in files" },
 	},
 }
