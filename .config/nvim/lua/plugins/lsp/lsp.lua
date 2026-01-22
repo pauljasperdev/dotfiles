@@ -24,19 +24,47 @@ return {
 				end
 			end
 
+			local function find_uv_workspace_root(bufnr)
+				local start = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+				local matches = vim.fs.find("pyproject.toml", { path = start, upward = true, stop = vim.loop.os_homedir() })
+				for _, match in ipairs(matches) do
+					local ok, contents = pcall(vim.fn.readfile, match)
+					if ok then
+						local text = table.concat(contents, "\n")
+						if text:match("%[tool%.uv%.workspace%]") then
+							return vim.fs.dirname(match)
+						end
+					end
+				end
+				return nil
+			end
+
 			-- Python
 			vim.lsp.config("pyright", {
-				root_dir = root({
-					"pyproject.toml",
-					"pyrightconfig.json",
-					"setup.py",
-					"setup.cfg",
-					"requirements.txt",
-					"Pipfile",
-					".git",
-				}),
+				root_dir = function(bufnr, on_dir)
+					local uv_root = find_uv_workspace_root(bufnr)
+					if uv_root then
+						on_dir(uv_root)
+						return
+					end
+
+					local dir = vim.fs.root(bufnr, {
+						"pyproject.toml",
+						"pyrightconfig.json",
+						"setup.py",
+						"setup.cfg",
+						"requirements.txt",
+						"Pipfile",
+						".git",
+					})
+					if dir then
+						on_dir(dir)
+					end
+				end,
 				settings = {
 					python = {
+						venvPath = ".",
+						venv = ".venv",
 						analysis = {
 							typeCheckingMode = "basic",
 							autoSearchPaths = true,
@@ -47,7 +75,18 @@ return {
 			})
 
 			vim.lsp.config("ruff", {
-				root_dir = root({ "pyproject.toml", "ruff.toml", ".git" }),
+				root_dir = function(bufnr, on_dir)
+					local uv_root = find_uv_workspace_root(bufnr)
+					if uv_root then
+						on_dir(uv_root)
+						return
+					end
+
+					local dir = vim.fs.root(bufnr, { "pyproject.toml", "ruff.toml", ".git" })
+					if dir then
+						on_dir(dir)
+					end
+				end,
 			})
 
 			-- TypeScript / JavaScript (vtsls)
