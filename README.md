@@ -37,3 +37,15 @@ This overwrites top-level dotfiles like `~/.zshrc` and `~/.tmux.conf` and merges
 </li>
 
 </ol>
+
+## Keychain backend env variables
+
+### Set
+
+```bash
+security add-generic-password \
+  -a "$USER" \
+  -s "context7-api-key" \
+  -w "YOUR_API_KEY_HERE" \
+  -U
+```
