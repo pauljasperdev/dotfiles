@@ -6,9 +6,10 @@ return {
 			-- keep these deps you already had
 			{ "antosha417/nvim-lsp-file-operations", config = true },
 			{ "folke/lazydev.nvim", opts = {} },
+			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			-- Apply defaults to all servers.
 			vim.lsp.config("*", {

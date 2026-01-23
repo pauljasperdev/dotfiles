@@ -12,11 +12,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			client.server_capabilities.hoverProvider = false
 		end
 
-		-- Neovim 0.11 built-in completion (no cmp plugin)
-		if client and client:supports_method("textDocument/completion", ev.buf) then
-			pcall(vim.lsp.completion.enable, true, client.id, ev.buf, { autotrigger = true })
-		end
-
 		-- set keybinds
 		opts.desc = "Show LSP references"
 		keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
