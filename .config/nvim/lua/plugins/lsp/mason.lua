@@ -38,7 +38,12 @@ return {
 				"eslint",
 			},
 			-- Mason v2: automatically enable servers after installation
-			automatic_enable = true,
+			automatic_enable = {
+				exclude = {
+					"tsserver",
+					"ts_ls",
+				},
+			},
 		},
 	},
 	{
