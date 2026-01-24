@@ -38,6 +38,13 @@
 !.agent/skills/
 !.agent/skills/**
 
-# .claude files are force add via `dotfiles add -f`
+# .claude 
+
+!.claude/
+!.claude/skills
+!.claude/skills/**
+
+!.claude/hooks
+!.claude/hooks/**
 
 
