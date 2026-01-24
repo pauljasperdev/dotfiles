@@ -33,10 +33,10 @@
 !.config/starship.toml
 
 # .agent
-!.agent/
+!.agents/
 
-!.agent/skills/
-!.agent/skills/**
+!.agents/skills/
+!.agents/skills/**
 
 # .claude 
 
