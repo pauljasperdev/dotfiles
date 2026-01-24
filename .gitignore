@@ -1,7 +1,19 @@
 *
 
+# root files
 !.gitignore
+!.tmux.conf
+!.zshrc
+!.zshenv
+!.zprofile
+!.profile
+!.bashrc
+!.bootstrap.*
+!README.md
+!AGENTS.md
+!.bootstrap.move.sh
 
+# .config
 !.config/
 
 !.config/nvim/
@@ -15,19 +27,17 @@
 !.config/opencode/agent/
 !.config/opencode/agent/**
 
-
 !.config/git/
 !.config/git/**
 
 !.config/starship.toml
 
-!.tmux.conf
-!.zshrc
-!.zshenv
-!.zprofile
-!.profile
-!.bashrc
-!.bootstrap.*
-!README.md
-!AGENTS.md
-!.bootstrap.move.sh
+# .agent
+!.agent/
+
+!.agent/skills/
+!.agent/skills/**
+
+# .claude files are force add via `dotfiles add -f`
+
+
