@@ -21,22 +21,21 @@ if echo "$PROMPT" | grep -qE '/gsd:(execute-plan|execute-phase)'; then
     echo ""
     echo "You MUST obey by the mandatory procedures."
     echo ""
+    echo ""
+    echo "### Skills"
+    echo ""
+    echo "You must check your available skills and use them if applicable"
+    echo ""
   fi
 fi
 
 # For verify-work: inject security checklist
 if echo "$PROMPT" | grep -qE '/gsd:verify-work'; then
-  if [ -f ".planning/codebase/SECURITY-CHECKLIST.md" ]; then
+  if [ -f ".planning/codebase/TESTING.md" ]; then
+    echo "### Testing Requirements (from .planning/codebase/TESTING.md)"
+    echo ""
+    echo "You MUST obey by the mandatory procedures."
     echo "### Security Review Requirements (from .planning/codebase/SECURITY-CHECKLIST.md)"
-    echo ""
-    echo "Before completing verification, work through the security checklist:"
-    echo ""
-    echo "1. Read .planning/codebase/SECURITY-CHECKLIST.md"
-    echo "2. Review files changed in this phase against each category"
-    echo "3. Log any findings to .planning/codebase/SECURITY-REVIEW.md"
-    echo "4. Critical/High/Medium findings BLOCK completion"
-    echo "5. Uncheck and update completed plans if blocker issues where found."
-    echo "6. start /gsd:execute-plan agents to fix the issues."
     echo ""
   fi
 fi
@@ -48,7 +47,10 @@ if echo "$PROMPT" | grep -qE '/gsd:plan-phase'; then
     echo ""
     echo "Include testing verification and security checks in every plan's <verification> section."
     echo "Read .planning/codebase/TESTING.md for project test commands."
-    echo "Read .planning/codebase/SECURITY-CHECKLIST.md for project security checks."
+    echo ""
+    echo "### Skills"
+    echo ""
+    echo "You must check your available skills and mention them to be used in plan"
     echo ""
   fi
 fi
