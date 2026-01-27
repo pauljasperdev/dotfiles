@@ -5,8 +5,8 @@
     }
   },
   "env": {
-    "BASH_DEFAULT_TIMEOUT_MS": "600000", // 10 minutes
-    "BASH_MAX_TIMEOUT_MS": "1800000" // 30 minutes
+    "BASH_DEFAULT_TIMEOUT_MS": "600000",
+    "BASH_MAX_TIMEOUT_MS": "1800000"
   },
   "hooks": {
     "UserPromptSubmit": [
