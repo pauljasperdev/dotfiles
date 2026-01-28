@@ -141,6 +141,8 @@ alias oc='opencode'
 # enter lima vm with zsh shell $ limashell agent-sandbox
 alias limashell='limactl shell --shell /home/linuxbrew/.linuxbrew/bin/zsh'
 
+alias sb='ssh botbox'
+alias keepawake='sudo caffeinate -dimsu'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -155,7 +157,7 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # git
-alias dotfiles='git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
+alias gdf='git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
