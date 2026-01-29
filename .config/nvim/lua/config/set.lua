@@ -4,6 +4,20 @@ vim.g.mapleader = " "
 -- Clipboard
 -- Use the system clipboard for all yanks/puts (requires Neovim built with +clipboard)
 vim.opt.clipboard = "unnamedplus"
+if vim.env.SSH_TTY then
+	-- Use OSC52 to copy over SSH to the local clipboard.
+	vim.g.clipboard = {
+		name = "OSC52",
+		copy = {
+			["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+			["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+		},
+		paste = {
+			["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+			["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+		},
+	}
+end
 
 -- UI
 vim.o.number = true -- show absolute line numbers (see NumberToggle below)
