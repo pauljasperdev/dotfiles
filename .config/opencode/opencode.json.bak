@@ -1,8 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "keybinds": {
-    "variant_cycle": "ctrl+x v"
-  },
   "mcp": {
     "context7": {
       "type": "remote",
@@ -21,5 +18,7 @@
       "prompt": "You are Claude Code, Anthropic's official CLI for Claude."
     }
   },
-  "plugin": ["oh-my-opencode@latest"]
+  "plugin": [
+    "oh-my-opencode@latest"
+  ]
 }
