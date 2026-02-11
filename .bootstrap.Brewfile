@@ -11,6 +11,11 @@ brew "zsh"
 brew "tmux"
 brew "neovim"
 
+if RUBY_PLATFORM.include?("darwin")
+  tap chmouel/lazyworktree https://github.com/chmouel/lazyworktree
+  cask "lazyworktree"
+end
+
 # Shell + prompt
 brew "starship"
 brew "lsd"
