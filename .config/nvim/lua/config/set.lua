@@ -23,6 +23,7 @@ end
 vim.o.number = true -- show absolute line numbers (see NumberToggle below)
 vim.o.numberwidth = 1 -- keep gutter narrow
 vim.o.signcolumn = "yes" -- avoid text shifting when signs appear
+vim.opt.termguicolors = true -- enable truecolor in terminal UI
 
 -- Completion menu behavior (important for built-in LSP completion UI)
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -110,13 +111,13 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 -- Keep buffers in sync with disk.
 -- `:checktime` updates a buffer if the file changed externally (git checkout, formatter, etc.).
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-  pattern = "*",
-  command = "checktime"
+	pattern = "*",
+	command = "checktime",
 })
 
 -- Also check periodically while idle/typing.
 -- Note: FocusGained appears in both autocmds; that's okay (checktime is cheap).
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "FocusGained" }, {
-  pattern = "*",
-  command = "checktime"
+	pattern = "*",
+	command = "checktime",
 })
