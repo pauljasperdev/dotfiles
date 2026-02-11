@@ -148,6 +148,10 @@ alias keepawake='sudo caffeinate -dimsu'
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 alias pn='pnpm'
+alias oc='OPENCODE_EXPERIMENTAL_PLAN_MODE=0 opencode'
+alias ocp='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 opencode'
+alias lwt='lazyworktree'
+
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
@@ -163,7 +167,6 @@ alias gdf='git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
 
 # env variables
 export CONTEXT7_API_KEY="$(security find-generic-password -a "$USER" -s "context7-api-key" -w)"
-export OPENCODE_EXPERIMENTAL_PLAN_MODE=1
 
 # starship theme !!! HAS TO BE AT THE END !!!
 if command -v starship >/dev/null 2>&1; then
