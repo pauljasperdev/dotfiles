@@ -113,6 +113,8 @@ elif [[ -d "/opt/homebrew/bin" ]] && [[ ":$PATH:" != *":/opt/homebrew/bin:"* ]];
   export PATH="/opt/homebrew/bin:$PATH"
 fi
 
+export COLORTERM=truecolor
+
 # zsh-completions must be BEFORE compinit runs (OMZ runs compinit)
 if command -v brew >/dev/null 2>&1; then
   fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
