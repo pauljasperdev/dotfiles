@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		local opts = { buffer = ev.buf, silent = true }
 		local telescope_builtin = require("telescope.builtin")
+		local telescope_lsp_opts = { file_ignore_patterns = {} }
 
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client and client.name == "ruff" then
@@ -15,26 +16,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- set keybinds
 		opts.desc = "Show LSP references"
-		keymap.set("n", "gr", telescope_builtin.lsp_references, opts) -- show definition, references
+		keymap.set("n", "gr", function()
+			telescope_builtin.lsp_references(telescope_lsp_opts)
+		end, opts) -- show definition, references
 
 		opts.desc = "Go to declaration"
 		keymap.set("n", "gD", function()
-			telescope_builtin.lsp_declarations({ jump_type = "never" })
+			telescope_builtin.lsp_declarations(vim.tbl_extend("force", telescope_lsp_opts, { jump_type = "never" }))
 		end, opts) -- go to declaration
 
 		opts.desc = "Show LSP definitions"
 		keymap.set("n", "gd", function()
-			telescope_builtin.lsp_definitions({ jump_type = "never" })
+			telescope_builtin.lsp_definitions(vim.tbl_extend("force", telescope_lsp_opts, { jump_type = "never" }))
 		end, opts) -- show lsp definitions
 
 		opts.desc = "Show LSP implementations"
 		keymap.set("n", "gi", function()
-			telescope_builtin.lsp_implementations({ jump_type = "never" })
+			telescope_builtin.lsp_implementations(vim.tbl_extend("force", telescope_lsp_opts, { jump_type = "never" }))
 		end, opts) -- show lsp implementations
 
 		opts.desc = "Show LSP type definitions"
 		keymap.set("n", "gt", function()
-			telescope_builtin.lsp_type_definitions({ jump_type = "never" })
+			telescope_builtin.lsp_type_definitions(vim.tbl_extend("force", telescope_lsp_opts, { jump_type = "never" }))
 		end, opts) -- show lsp type definitions
 
 		opts.desc = "Show document symbols"
