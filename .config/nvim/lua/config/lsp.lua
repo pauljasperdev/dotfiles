@@ -5,6 +5,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		local opts = { buffer = ev.buf, silent = true }
+		local telescope_builtin = require("telescope.builtin")
 
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if client and client.name == "ruff" then
@@ -14,19 +15,39 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- set keybinds
 		opts.desc = "Show LSP references"
-		keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+		keymap.set("n", "gr", telescope_builtin.lsp_references, opts) -- show definition, references
 
 		opts.desc = "Go to declaration"
-		keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+		keymap.set("n", "gD", function()
+			telescope_builtin.lsp_declarations({ jump_type = "never" })
+		end, opts) -- go to declaration
 
-		opts.desc = "Show LSP definition"
-		keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definition
+		opts.desc = "Show LSP definitions"
+		keymap.set("n", "gd", function()
+			telescope_builtin.lsp_definitions({ jump_type = "never" })
+		end, opts) -- show lsp definitions
 
 		opts.desc = "Show LSP implementations"
-		keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+		keymap.set("n", "gi", function()
+			telescope_builtin.lsp_implementations({ jump_type = "never" })
+		end, opts) -- show lsp implementations
 
 		opts.desc = "Show LSP type definitions"
-		keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+		keymap.set("n", "gt", function()
+			telescope_builtin.lsp_type_definitions({ jump_type = "never" })
+		end, opts) -- show lsp type definitions
+
+		opts.desc = "Show document symbols"
+		keymap.set("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", opts)
+
+		opts.desc = "Show workspace symbols"
+		keymap.set("n", "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", opts)
+
+		opts.desc = "Show incoming calls"
+		keymap.set("n", "<leader>li", "<cmd>Telescope lsp_incoming_calls<CR>", opts)
+
+		opts.desc = "Show outgoing calls"
+		keymap.set("n", "<leader>lo", "<cmd>Telescope lsp_outgoing_calls<CR>", opts)
 
 		opts.desc = "See available code actions"
 		keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
