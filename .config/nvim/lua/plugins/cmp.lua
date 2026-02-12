@@ -22,7 +22,7 @@ return {
 						luasnip.lsp_expand(args.body)
 					end,
 				},
-				mapping = cmp.mapping.preset.insert({
+				mapping = {
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
@@ -33,7 +33,7 @@ return {
 							fallback()
 						end
 					end, { "i", "s" }),
-				}),
+				},
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
