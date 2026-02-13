@@ -202,8 +202,11 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --theme=\"Catppuccin Mocha
 export FZF_ALT_C_OPTS="--preview 'lsd --tree --depth 2 --color always {}'"
 
 # `open` ── fuzzy-find a file → open in nvim (Enter)
-open() {
-  fzf --exit-0 --bind 'enter:become(nvim {1})'
+unalias open 2>/dev/null
+function open {
+  local file
+  file="$(fzf --exit-0)" || return
+  [[ -n "$file" ]] && nvim "$file"
 }
 
 # env variables
