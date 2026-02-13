@@ -53,9 +53,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		keymap.set("n", "<leader>lo", "<cmd>Telescope lsp_outgoing_calls<CR>", opts)
 
 		opts.desc = "See available code actions"
-		keymap.set({ "n", "v" }, "<leader>ca", function()
-			telescope_builtin.lsp_code_actions(telescope_lsp_opts)
-		end, opts) -- see available code actions, in visual mode will apply to selection
+		keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
 		opts.desc = "Smart rename"
 		keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
@@ -64,12 +62,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
 		opts.desc = "Show line diagnostics"
-		keymap.set("n", "<leader>d", function()
-			telescope_builtin.diagnostics(vim.tbl_extend("force", telescope_lsp_opts, {
-				bufnr = 0,
-				lnum = vim.api.nvim_win_get_cursor(0)[1] - 1,
-			}))
-		end, opts) -- show diagnostics for line
+		keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
 
 		opts.desc = "Go to previous diagnostic"
@@ -82,15 +75,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.diagnostic.jump({ count = 1, float = true })
 		end, opts) -- jump to next diagnostic in buffer
 
-		opts.desc = "Search symbol under cursor"
-		keymap.set("n", "gh", function()
-			telescope_builtin.lsp_workspace_symbols(vim.tbl_extend("force", telescope_lsp_opts, {
-				query = vim.fn.expand("<cword>"),
-			}))
-		end, opts)
-
 		opts.desc = "Show documentation for what is under cursor"
-		keymap.set("n", "gH", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+		keymap.set("n", "gh", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
 		opts.desc = "Restart LSP"
 		keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
@@ -110,4 +96,12 @@ vim.diagnostic.config({
 			[severity.INFO] = " ",
 		},
 	},
+	float = {
+		border = "rounded",
+		source = "if_many",
+	},
+})
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = "rounded",
 })
