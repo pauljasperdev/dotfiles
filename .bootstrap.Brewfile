@@ -27,6 +27,7 @@ brew "zsh-completions"
 # Search / pickers
 brew "ripgrep"
 brew "fd"
+brew "bat"
 
 # Neovim formatter deps (conform.nvim)
 brew "prettierd"

@@ -165,7 +165,48 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # git
 alias gdf='git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME"'
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf ─────────────────────────────────────────────────────────────────────────
+source <(fzf --zsh)
+
+# Use fd instead of default find (respects .gitignore, fast)
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+# Catppuccin Mocha palette ── matches nvim, starship, ghostty
+# Telescope-inspired: centered popup, rounded border, top prompt, preview right
+export FZF_DEFAULT_OPTS=" \
+  --height 80% --tmux center,80%,60% \
+  --layout reverse \
+  --border rounded \
+  --prompt '  ' \
+  --pointer '' \
+  --marker '' \
+  --separator '─' \
+  --scrollbar '│' \
+  --info inline-right \
+  --preview 'bat --color=always --theme=\"Catppuccin Mocha\" --style=numbers,changes --line-range :300 {}' \
+  --preview-window 'right,55%,border-left' \
+  --bind 'ctrl-/:toggle-preview' \
+  --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+  --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
+  --color=selected-bg:#45475a \
+  --color=border:#6c7086,label:#cdd6f4 \
+"
+
+# Ctrl-T preview with bat
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always --theme=\"Catppuccin Mocha\" --style=numbers,changes --line-range :300 {}'"
+
+# Alt-C preview with lsd (tree)
+export FZF_ALT_C_OPTS="--preview 'lsd --tree --depth 2 --color always {}'"
+
+# `open` ── fuzzy-find a file → open in nvim (Enter)
+open() {
+  local file
+  file=$(fzf --query="$*")
+  [[ -n "$file" ]] && nvim "$file"
+}
 
 # env variables
 export CONTEXT7_API_KEY="$(security find-generic-password -a "$USER" -s "context7-api-key" -w)"
