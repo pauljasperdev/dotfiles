@@ -43,7 +43,19 @@ return {
 		require("telescope").load_extension("git_file_history")
 	end,
 	keys = {
-		{ "<leader>ff", "<cmd>Telescope git_files<cr>", desc = "Find files" },
+	{
+		"<leader>ff",
+		function()
+			local builtin = require("telescope.builtin")
+			vim.fn.system("git rev-parse --is-inside-work-tree")
+			if vim.v.shell_error == 0 then
+				builtin.git_files()
+			else
+				builtin.find_files()
+			end
+		end,
+		desc = "Find files",
+	},
 		{ "<leader>fa", "<cmd>Telescope find_files<cr>", desc = "Find all files" },
 		{ "<leader>fs", "<cmd>Telescope live_grep<cr>", desc = "Find in files" },
 	},
