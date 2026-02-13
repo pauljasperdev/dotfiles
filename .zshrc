@@ -203,9 +203,7 @@ export FZF_ALT_C_OPTS="--preview 'lsd --tree --depth 2 --color always {}'"
 
 # `open` ── fuzzy-find a file → open in nvim (Enter)
 open() {
-  local file
-  file=$(fzf --query="$*")
-  [[ -n "$file" ]] && nvim "$file"
+  fzf --exit-0 --bind 'enter:become(nvim {1})'
 }
 
 # env variables
@@ -215,5 +213,3 @@ export CONTEXT7_API_KEY="$(security find-generic-password -a "$USER" -s "context
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
-
-
