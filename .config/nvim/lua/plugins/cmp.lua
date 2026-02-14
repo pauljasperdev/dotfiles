@@ -17,6 +17,10 @@ return {
 				completion = {
 					completeopt = "menu,menuone,noselect",
 				},
+				window = {
+					completion = cmp.config.window.bordered({ border = "rounded" }),
+					documentation = cmp.config.window.bordered({ border = "rounded" }),
+				},
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
