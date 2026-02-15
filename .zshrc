@@ -153,6 +153,7 @@ alias pn='pnpm'
 alias oc='OPENCODE_EXPERIMENTAL_PLAN_MODE=0 opencode'
 alias ocp='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 opencode'
 alias lwt='lazyworktree'
+alias cr='tuicr --theme catppuccin-mocha'
 
 
 # bun completions

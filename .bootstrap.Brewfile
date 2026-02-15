@@ -49,6 +49,8 @@ brew "uv"
 
 # AI tooling
 brew "opencode"
+tap "agavra/tap"
+brew "agavra/tap/tuicr"
 
 # Terminal + fonts
 if RUBY_PLATFORM.include?("darwin")
