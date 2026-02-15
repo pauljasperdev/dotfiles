@@ -11,6 +11,7 @@ return {
 		pickers = {
 			find_files = {
 				hidden = true,
+				no_ignore = true,
 			},
 			git_files = {
 				hidden = true,
@@ -28,8 +29,10 @@ return {
 				},
 			},
 			file_ignore_patterns = {
-				"node_modules/*",
-				".repos/*",
+				"^node_modules/",
+				"/node_modules/",
+				"^%.repos/",
+				"/%.repos/",
 			},
 		},
 		extensions = {
