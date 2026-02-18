@@ -42,12 +42,12 @@
       "variant": "high"
     },
     "ultrabrain": {
-      "model": "openai/gpt-5.3-codex",
-      "variant": "xhigh"
+      "model": "anthropic/claude-opus-4-6",
+      "variant": "max"
     },
     "deep": {
-      "model": "openai/gpt-5.3-codex",
-      "variant": "medium"
+      "model": "anthropic/claude-opus-4-6",
+      "variant": "max"
     },
     "artistry": {
       "model": "google/gemini-3-pro",
