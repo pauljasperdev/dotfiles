@@ -35,7 +35,7 @@
       "variant": "medium"
     },
     "atlas": {
-      "model": "anthropic/claude-sonnet-4-5"
+      "model": "anthropic/claude-sonnet-4-6"
     }
   },
   "categories": {
@@ -59,6 +59,7 @@
       "model": "anthropic/claude-haiku-4-5"
     },
     "unspecified-low": {
+<<<<<<< HEAD
       "model": "anthropic/claude-sonnet-4-5",
       "variant": "medium"
     },
@@ -68,6 +69,15 @@
     },
     "writing": {
       "model": "google/gemini-3-flash"
+=======
+      "model": "anthropic/claude-sonnet-4-6"
+    },
+    "unspecified-high": {
+      "model": "anthropic/claude-sonnet-4-6"
+    },
+    "writing": {
+      "model": "anthropic/claude-sonnet-4-6"
+>>>>>>> f18e161 (chore(opencode): upgrade sonnet 4-5 to 4-6 in oh-my-opencode config)
     }
   }
 }
