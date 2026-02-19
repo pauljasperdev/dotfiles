@@ -7,6 +7,8 @@ return {
 			local cwd = vim.uv.cwd()
 			local basename = vim.fs.basename(cwd)
 			_99.setup({
+				model = "openai/gpt-5.3-codex",
+
 				logger = {
 					level = _99.DEBUG,
 					path = "/tmp/" .. basename .. ".99.debug",
@@ -23,7 +25,7 @@ return {
 				},
 
 				md_files = {
-					"AGENT.md",
+					"AGENTS.md",
 				},
 			})
 
