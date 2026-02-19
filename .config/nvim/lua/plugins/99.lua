@@ -15,7 +15,7 @@ return {
 					print_on_error = true,
 				},
 
-				tmp_dir = "./tmp",
+				tmp_dir = "./.tmp",
 
 				completion = {
 					custom_rules = {
