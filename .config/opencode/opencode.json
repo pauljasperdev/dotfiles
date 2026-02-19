@@ -22,7 +22,39 @@
       "prompt": "You are Claude Code, Anthropic's official CLI for Claude."
     }
   },
-  "plugin": [
-    "oh-my-opencode@latest"
-  ]
+  "provider": {
+    "google": {
+      "models": {
+        "gemini-3-flash-preview": {
+          "name": "Gemini 3 Flash Preview",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "gemini-3-flash": {
+          "name": "Gemini 3 Flash",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "gemini-3-pro-preview": {
+          "name": "Gemini 3 Pro Preview",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "gemini-3-pro": {
+          "name": "Gemini 3 Pro",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        }
+      }
+    }
+  },
+  "plugin": ["oh-my-opencode@latest"]
 }
