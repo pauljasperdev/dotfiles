@@ -5,6 +5,11 @@
     "variant_cycle": "ctrl+x v"
   },
   "mcp": {
+    "next-devtools": {
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"],
+      "enabled": true
+    },
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
