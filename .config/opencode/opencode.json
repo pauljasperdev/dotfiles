@@ -6,8 +6,8 @@
   },
   "mcp": {
     "next-devtools": {
-      "command": "npx",
-      "args": ["-y", "next-devtools-mcp@latest"],
+      "type": "local",
+      "command": ["npx", "-y", "next-devtools-mcp@latest"],
       "enabled": true
     },
     "context7": {
