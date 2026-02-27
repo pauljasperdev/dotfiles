@@ -61,5 +61,13 @@
       }
     }
   },
-  "plugin": ["oh-my-opencode@latest"]
+  "plugin": ["oh-my-opencode@latest"],
+  "permission": {
+    "bash": {
+      "sst": "deny",
+      "sst *": "deny",
+      "* sst": "deny",
+      "* sst *": "deny"
+    }
+  }
 }
