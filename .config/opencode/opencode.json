@@ -67,7 +67,11 @@
       "sst": "deny",
       "sst *": "deny",
       "* sst": "deny",
-      "* sst *": "deny"
+      "* sst *": "deny",
+      "git push": "deny",
+      "git push *": "deny",
+      "git branch -d *": "deny",
+      "git branch -D *": "deny"
     }
   }
 }
