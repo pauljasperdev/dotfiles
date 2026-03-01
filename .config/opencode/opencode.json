@@ -46,13 +46,6 @@
             "context": 1048576,
             "output": 65536
           }
-        },
-        "gemini-3.1-pro": {
-          "name": "Gemini 3.1 Pro",
-          "limit": {
-            "context": 1048576,
-            "output": 65536
-          }
         }
       }
     }
