@@ -51,6 +51,7 @@ brew "uv"
 brew "opencode"
 tap "agavra/tap"
 brew "agavra/tap/tuicr"
+brew "codex"
 
 # Terminal + fonts
 if RUBY_PLATFORM.include?("darwin")
