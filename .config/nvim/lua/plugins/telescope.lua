@@ -50,7 +50,7 @@ return {
 			"<leader>ff",
 			function()
 				local builtin = require("telescope.builtin")
-				local ok = pcall(builtin.git_files, {})
+				local ok = pcall(builtin.git_files, { show_untracked = true })
 				if not ok then
 					builtin.find_files({})
 				end
