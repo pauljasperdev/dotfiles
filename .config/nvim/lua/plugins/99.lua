@@ -7,7 +7,7 @@ return {
 			local cwd = vim.uv.cwd()
 			local basename = vim.fs.basename(cwd)
 			_99.setup({
-				model = "anthropic/opus-4.6",
+				model = "openai/gpt-5.4",
 
 				logger = {
 					level = _99.DEBUG,
