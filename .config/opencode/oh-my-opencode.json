@@ -23,9 +23,8 @@
       "model": "google/gemini-3-flash-preview"
     },
     "prometheus": {
-      "model": "openai/gpt-5.4",
-      "variant": "high",
-      "reasoningEffort": "high"
+      "model": "openai/gpt-5.4-pro",
+      "variant": "high"
     },
     "metis": {
       "model": "openai/gpt-5.4",
@@ -52,19 +51,18 @@
     },
     "ultrabrain": {
       "model": "openai/gpt-5.4",
-      "variant": "high"
+      "variant": "xhigh"
     },
     "deep": {
       "model": "openai/gpt-5.4",
-      "variant": "high",
-      "reasoningEffort": "xhigh"
+      "variant": "xhigh"
     },
     "artistry": {
       "model": "google/gemini-3.1-pro-preview",
       "variant": "high"
     },
     "quick": {
-      "model": "openai/gpt-5-mini"
+      "model": "openai/gpt-5.3-codex-spark"
     },
     "unspecified-low": {
       "model": "openai/gpt-5.4",
