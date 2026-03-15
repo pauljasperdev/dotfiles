@@ -1,0 +1,18 @@
+debug_log: /tmp/lazyworktree-debug.log
+
+custom_commands:
+  universal:
+    t:
+      description: Dev session
+      show_help: true
+      tmux:
+        session_name: "wt-$WORKTREE_NAME"
+        attach: true
+        on_exists: switch
+        windows:
+          - name: editor
+            command: "nvim ."
+          - name: code
+            command: "tmux split-window -dh -t $TMUX_PANE 'pnpm bootstrap; exec zsh'; tmux select-window -t :code; opencode ."
+          - name: tasks
+            command: "tuicr --theme catppuccin-mocha"
