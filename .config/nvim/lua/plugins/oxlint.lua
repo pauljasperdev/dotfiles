@@ -1,9 +1,18 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
-		config = function()
-			local lspconfig = require("lspconfig")
-			lspconfig.oxc_language_server.setup({})
+		init = function()
+			vim.lsp.config("oxc_language_server", {
+				cmd = { "oxc_language_server" },
+				filetypes = {
+					"javascript",
+					"javascriptreact",
+					"typescript",
+					"typescriptreact",
+				},
+				root_markers = { "oxlintrc.json", ".oxlintrc.json", "package.json", ".git" },
+			})
+			vim.lsp.enable("oxc_language_server")
 
 			local group = vim.api.nvim_create_augroup("OxlintFixOnSave", { clear = true })
 			vim.api.nvim_create_autocmd("BufWritePost", {
@@ -23,6 +32,21 @@ return {
 					end)
 				end,
 			})
+
+			vim.api.nvim_create_user_command("OxcFixAll", function()
+				local bufnr = vim.api.nvim_get_current_buf()
+				local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "oxc_language_server" })
+				if #clients == 0 then
+					return
+				end
+				vim.lsp.buf.code_action({
+					context = {
+						only = { "source.fixAll.oxc", "source.fixAll" },
+						triggerKind = 1,
+					},
+					apply = true,
+				})
+			end, { desc = "Fix all auto-fixable OXC issues" })
 
 			vim.api.nvim_create_user_command("OxlintFixDisable", function(args)
 				if args.bang then
