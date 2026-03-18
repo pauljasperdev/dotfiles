@@ -35,7 +35,6 @@ return {
 				"graphql",
 				"emmet_ls",
 				"prismals",
-				"eslint",
 			},
 			-- Mason v2: automatically enable servers after installation
 			automatic_enable = {
@@ -53,14 +52,11 @@ return {
 		},
 		opts = {
 			ensure_installed = {
-				"prettier",
 				"stylua",
 				-- Python tooling
 				"ruff",
-				"isort",
-				"black",
-				"pylint",
-				"eslint_d",
+			"biome",
+			"prettierd",
 			},
 		},
 	},
