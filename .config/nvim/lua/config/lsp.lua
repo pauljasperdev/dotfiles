@@ -86,6 +86,37 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		opts.desc = "Restart LSP"
 		keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+		-- Toggle inline diagnostics
+		opts.desc = "Toggle inline diagnostics"
+		keymap.set("n", "<leader>ll", function()
+			if vim.diagnostic.config().virtual_text == false then
+				vim.diagnostic.config({
+					virtual_text = { source = "always", prefix = "●" },
+				})
+			else
+				vim.diagnostic.config({ virtual_text = false })
+			end
+		end, opts)
+
+		-- Toggle all diagnostics
+		opts.desc = "Toggle all diagnostics"
+		keymap.set("n", "<leader>lL", function()
+			if vim.g.diagnostics_visible == false then
+				vim.g.diagnostics_visible = true
+				vim.diagnostic.enable(true)
+			else
+				vim.g.diagnostics_visible = false
+				vim.diagnostic.enable(false)
+			end
+		end, opts)
+
+		-- Signature help (normal mode)
+		opts.desc = "Show signature help"
+		keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, opts)
+
+		-- Signature help (insert mode)
+		keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, silent = true, desc = "Show signature help" })
 	end,
 })
 
