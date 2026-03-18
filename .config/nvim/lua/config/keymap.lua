@@ -8,10 +8,6 @@ vim.keymap.set("n", "H", ":cprevious<CR>", opts)
 
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
--- Completion navigation
-vim.keymap.set("i", "<C-j>", "<C-n>", { noremap = true, silent = true, desc = "Next completion item" })
-vim.keymap.set("i", "<C-k>", "<C-p>", { noremap = true, silent = true, desc = "Prev completion item" })
-vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { noremap = true, silent = true, desc = "Trigger completion" })
 
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
@@ -39,12 +35,13 @@ vim.keymap.set("n", "<leader>R", function()
 	end)
 end, opts)
 
--- Toggle format-on-save (conform.nvim)
+-- Toggle format-on-save + oxlint fix (conform.nvim + oxlint)
 vim.keymap.set("n", "<leader>fm", function()
 	vim.g.disable_autoformat = not vim.g.disable_autoformat
+	vim.g.disable_oxlint_fix = vim.g.disable_autoformat
 	if vim.g.disable_autoformat then
-		vim.notify("Format on save: OFF")
+		vim.notify("Format + Oxlint fix: OFF")
 	else
-		vim.notify("Format on save: ON")
+		vim.notify("Format + Oxlint fix: ON")
 	end
-end, { noremap = true, silent = true, desc = "Toggle format on save" })
+end, { noremap = true, silent = true, desc = "Toggle format on save + oxlint fix" })
