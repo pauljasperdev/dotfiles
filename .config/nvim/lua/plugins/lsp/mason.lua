@@ -41,7 +41,7 @@ return {
 				exclude = {
 					"tsserver",
 					"ts_ls",
-				"eslint",
+					"eslint",
 				},
 			},
 		},
