@@ -55,8 +55,8 @@ return {
 				"stylua",
 				-- Python tooling
 				"ruff",
-			"biome",
-			"prettierd",
+				"biome",
+				"prettierd",
 			},
 		},
 	},
