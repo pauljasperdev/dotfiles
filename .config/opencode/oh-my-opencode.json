@@ -12,7 +12,8 @@
       "prompt_append": "When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision."
     },
     "oracle": {
-      "model": "anthropic/claude-sonnet-4-6"
+      "model": "anthropic/claude-opus-4-6",
+      "variant": "max"
     },
     "librarian": {
       "model": "anthropic/claude-haiku-4-5"
@@ -33,7 +34,8 @@
       "variant": "max"
     },
     "momus": {
-      "model": "anthropic/claude-sonnet-4-6"
+      "model": "anthropic/claude-opus-4-6",
+      "variant": "max"
     },
     "atlas": {
       "model": "anthropic/claude-sonnet-4-6",
