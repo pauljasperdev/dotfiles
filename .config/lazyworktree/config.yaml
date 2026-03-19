@@ -15,4 +15,4 @@ custom_commands:
           - name: code
             command: "tmux split-window -dh -t $TMUX_PANE 'pnpm bootstrap; exec zsh'; tmux select-window -t :code; opencode .; exec zsh"
           - name: tasks
-            command: "tuicr --theme catppuccin-mocha"
+            command: "tuicr --theme catppuccin-mocha; exec zsh"
