@@ -23,6 +23,7 @@
       "prompt": "You are Claude Code, Anthropic's official CLI for Claude."
     }
   },
+
   "provider": {
     "google": {
       "models": {
@@ -50,7 +51,7 @@
       }
     }
   },
-  "plugin": ["oh-my-opencode@latest"],
+  "plugin": ["oh-my-opencode@latest", "./plugins/anthropic-auth.ts"],
   "permission": {
     "bash": {
       "sst": "deny",
