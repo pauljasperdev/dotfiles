@@ -65,7 +65,11 @@
       "aws": "deny",
       "aws *": "deny",
       "* aws": "deny",
-      "* aws *": "deny"
+      "* aws *": "deny",
+      "neon": "deny",
+      "neon *": "deny",
+      "* neon": "deny",
+      "* neon *": "deny"
     }
   }
 }
