@@ -6,7 +6,7 @@ user-invocable: true
 
 # Plan Hardener
 
-Take an existing implementation plan and make it bulletproof. The output is a plan a human can read, judge, and confidently approve or reject every decision in it.
+Take an existing implementation plan and make it bulletproof. The result is a plan a human can read, judge, and confidently approve or reject every decision in it.
 
 ## Execution Model: Fresh Context (MANDATORY)
 
@@ -17,16 +17,17 @@ The main chat thread accumulates context, assumptions, and biases over a convers
 **Main thread orchestrator does only this:**
 1. Spawn a fresh agent with `plan-hardener` loaded as a skill
 2. Pass the plan (file path or content) to the agent
-3. Receive the hardened plan back as a report
+3. Receive the hardened plan back
 
 **The fresh agent (you, reading this):**
 - Start with zero prior assumptions about the plan or codebase
 - Load the plan, read `AGENTS.md`, load relevant skills — in that order
 - Spawn your own explore/librarian agents for research (these are always fresh)
 - Do all hardening work (Steps 0–4 below)
-- Return the hardened plan to the main thread for human review
+- Update the original plan file with the hardened content
 
 **Why this matters:** If the main thread already discussed Effect-TS and formed wrong assumptions about it, an inline hardener will encode those same wrong assumptions into the plan. A fresh agent starts clean, researches from scratch, and produces an unbiased result.
+
 
 ## Step 0: Load Project Context (MANDATORY — NO EXCEPTIONS)
 
