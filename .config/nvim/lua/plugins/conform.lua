@@ -1,3 +1,14 @@
+--- Detect whether the project uses biome or prettier.
+--- Falls back to prettierd when no biome config is found.
+---@param bufnr integer
+---@return string[]
+local function js_formatter(bufnr)
+	if vim.fs.root(bufnr, { "biome.json", "biome.jsonc" }) then
+		return { "biome" }
+	end
+	return { "prettierd" }
+end
+
 return {
 	"stevearc/conform.nvim",
 	config = function(_, opts)
@@ -24,10 +35,10 @@ return {
 	opts = {
 		formatters_by_ft = {
 			lua = { "stylua" },
-			javascript = { "biome", "prettierd", stop_after_first = true },
-			javascriptreact = { "biome", "prettierd", stop_after_first = true },
-			typescript = { "biome", "prettierd", stop_after_first = true },
-			typescriptreact = { "biome", "prettierd", stop_after_first = true },
+			javascript = js_formatter,
+			javascriptreact = js_formatter,
+			typescript = js_formatter,
+			typescriptreact = js_formatter,
 			python = { "ruff_format" },
 		},
 		format_after_save = function(bufnr)
