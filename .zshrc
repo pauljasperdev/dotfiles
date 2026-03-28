@@ -137,8 +137,6 @@ alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
 
-alias nv='nvim'
-alias oc='opencode'
 
 # enter lima vm with zsh shell $ limashell agent-sandbox
 alias limashell='limactl shell --shell /home/linuxbrew/.linuxbrew/bin/zsh'
@@ -150,10 +148,11 @@ alias keepawake='sudo caffeinate -dimsu'
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 alias pn='pnpm'
-alias oc='OPENCODE_EXPERIMENTAL_PLAN_MODE=0 opencode'
-alias ocp='OPENCODE_EXPERIMENTAL_PLAN_MODE=1 opencode'
 alias lwt='lazyworktree'
 alias cr='tuicr --theme catppuccin-mocha'
+alias nv='nvim'
+alias oc='opencode'
+export ANTHROPIC_ENABLE_1M_CONTEXT=true
 
 
 # bun completions
