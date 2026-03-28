@@ -1,10 +1,13 @@
---- Detect whether the project uses biome or prettier.
---- Falls back to prettierd when no biome config is found.
+--- Detect whether the project uses biome, oxfmt, or prettier.
+--- Falls back to prettierd when no project-specific config is found.
 ---@param bufnr integer
 ---@return string[]
 local function js_formatter(bufnr)
 	if vim.fs.root(bufnr, { "biome.json", "biome.jsonc" }) then
 		return { "biome" }
+	end
+	if vim.fs.root(bufnr, { ".oxfmtrc.json", ".oxfmtrc.jsonc" }) then
+		return { "oxfmt" }
 	end
 	return { "prettierd" }
 end
