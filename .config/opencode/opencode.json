@@ -51,7 +51,7 @@
       }
     }
   },
-  "plugin": ["oh-my-opencode@latest", "./plugins/anthropic-auth.ts"],
+  "plugin": ["oh-my-opencode@latest", "opencode-claude-auth"],
   "permission": {
     "bash": {
       "sst": "deny",
