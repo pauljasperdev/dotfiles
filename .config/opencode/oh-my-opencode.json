@@ -12,8 +12,8 @@
       "prompt_append": "When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision."
     },
     "oracle": {
-      "model": "anthropic/claude-opus-4-6",
-      "variant": "max"
+      "model": "openai/gpt-5.4",
+      "variant": "high",
     },
     "librarian": {
       "model": "anthropic/claude-haiku-4-5"
@@ -34,8 +34,8 @@
       "variant": "max"
     },
     "momus": {
-      "model": "anthropic/claude-opus-4-6",
-      "variant": "max"
+      "model": "openai/gpt-5.4",
+      "variant": "high",
     },
     "atlas": {
       "model": "anthropic/claude-sonnet-4-6",
@@ -54,12 +54,12 @@
       "variant": "high"
     },
     "ultrabrain": {
-      "model": "anthropic/claude-opus-4-6",
-      "variant": "max"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh",
     },
     "deep": {
-      "model": "anthropic/claude-opus-4-6",
-      "variant": "max"
+      "model": "openai/gpt-5.3-codex",
+      "variant": "xhigh",
     },
     "artistry": {
       "model": "google/gemini-3.1-pro-preview",
