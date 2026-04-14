@@ -8,25 +8,25 @@
     },
     "hephaestus": {
       "model": "openai/gpt-5.4",
-      "variant": "high",
+      "variant": "medium",
       "prompt_append": "When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision."
     },
     "oracle": {
       "model": "openai/gpt-5.4",
-      "variant": "high",
+      "variant": "high"
     },
     "librarian": {
-      "model": "anthropic/claude-haiku-4-5"
+      "model": "openai/gpt-5.4-mini"
     },
     "explore": {
-      "model": "anthropic/claude-haiku-4-5"
+      "model": "openai/gpt-5.4-mini"
     },
     "multimodal-looker": {
       "model": "google/gemini-3-flash-preview"
     },
     "prometheus": {
-      "model": "anthropic/claude-opus-4-6",
-      "variant": "max",
+      "model": "openai/gpt-5.4",
+      "variant": "high",
       "prompt_append": "When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision."
     },
     "metis": {
@@ -35,11 +35,10 @@
     },
     "momus": {
       "model": "openai/gpt-5.4",
-      "variant": "high",
+      "variant": "xhigh"
     },
     "atlas": {
       "model": "anthropic/claude-sonnet-4-6",
-      "variant": "max",
       "prompt_append": "When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision."
     }
   },
@@ -55,29 +54,30 @@
     },
     "ultrabrain": {
       "model": "openai/gpt-5.4",
-      "variant": "xhigh",
+      "variant": "xhigh"
     },
     "deep": {
       "model": "openai/gpt-5.3-codex",
-      "variant": "xhigh",
+      "variant": "medium"
     },
     "artistry": {
       "model": "google/gemini-3.1-pro-preview",
       "variant": "high"
     },
     "quick": {
-      "model": "anthropic/claude-haiku-4-5"
+      "model": "openai/gpt-5.4-mini"
     },
     "unspecified-low": {
       "model": "anthropic/claude-sonnet-4-6",
       "variant": "medium"
     },
     "unspecified-high": {
-      "model": "anthropic/claude-opus-4-6",
-      "variant": "max"
+      "model": "openai/gpt-5.3-codex",
+      "variant": "high"
     },
     "writing": {
       "model": "anthropic/claude-sonnet-4-6"
     }
-  }
+  },
+  "_migrations": ["model-version:openai/gpt-5.3-codex->openai/gpt-5.4"]
 }
