@@ -35,6 +35,15 @@
 !.config/lazyworktree/
 !.config/lazyworktree/**
 
+# .pi
+!.pi/
+!.pi/agent/
+!.pi/agent/settings.json
+!.pi/agent/mcp.json
+!.pi/agent/skills/
+!.pi/agent/skills/**
+
+
 # .agent
 !.agents/
 

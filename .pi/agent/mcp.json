@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "next-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "next-devtools-mcp@latest"
+      ]
+    },
+    "context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "directTools": true
+    },
+    "gemhog": {
+      "url": "https://mcp.gemhog.com/mcp",
+      "auth": "bearer",
+      "bearerTokenEnv": "GEMHOG_API_KEY"
+    },
+    "reddit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "reddit-mcp-server"
+      ],
+      "env": {
+        "REDDIT_AUTH_MODE": "anonymous"
+      }
+    }
+  }
+}
