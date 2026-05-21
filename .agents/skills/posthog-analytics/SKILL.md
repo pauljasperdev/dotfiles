@@ -1,11 +1,13 @@
 ---
 name: posthog-analytics
 description: PostHog analytics, event tracking, feature flags, dashboards
+when-to-use: When adding analytics, feature flags, or event tracking with PostHog
+user-invocable: false
+effort: medium
 ---
 
 # PostHog Analytics Skill
 
-*Load with: base.md + [framework].md*
 
 For implementing product analytics with PostHog - event tracking, user identification, feature flags, and project-specific dashboards.
 

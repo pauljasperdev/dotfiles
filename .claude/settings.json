@@ -30,6 +30,8 @@
       }
     ]
   },
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
   "preferences": {
     "codeStyle": {
       "gitCommitCoAuthor": false
