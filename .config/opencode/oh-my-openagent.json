@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "anthropic/claude-opus-4-6",
+      "model": "anthropic/claude-opus-4-7",
       "variant": "max",
       "prompt_append": "When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision."
     },
@@ -30,8 +30,8 @@
       "prompt_append": "When reporting information to me, be extremely concise and sacrifice grammar for the sake of concision."
     },
     "metis": {
-      "model": "anthropic/claude-opus-4-6",
-      "variant": "max"
+      "model": "openai/gpt-5.4",
+      "variant": "xhigh"
     },
     "momus": {
       "model": "openai/gpt-5.4",
