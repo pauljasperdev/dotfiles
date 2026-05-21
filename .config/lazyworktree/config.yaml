@@ -11,8 +11,8 @@ custom_commands:
         on_exists: switch
         windows:
           - name: editor
-            command: "nvim .; exec zsh"
+            command: "exec zsh"
           - name: code
-            command: "tmux split-window -dh -t $TMUX_PANE 'pnpm bootstrap; exec zsh'; tmux select-window -t :code; opencode .; exec zsh"
+            command: "tmux split-window -dh -t $TMUX_PANE 'pnpm bootstrap; exec zsh'; tmux select-window -t :code; exec zsh"
           - name: tasks
-            command: "tuicr --theme catppuccin-mocha; exec zsh"
+            command: "exec zsh"
