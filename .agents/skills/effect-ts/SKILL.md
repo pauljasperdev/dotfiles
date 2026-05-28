@@ -1,341 +1,191 @@
 ---
 name: effect-ts
-description: Comprehensive guide for Effect-TS, the functional TypeScript library. Use when building Effect applications, especially MCP servers. Covers correct APIs, common misconceptions, and MCP-specific patterns.
+description: Use this skill whenever working in a repository that uses Effect, even if the current task is in a new file or the user does not explicitly ask for Effect help. Apply it to any work that should follow the repository's Effect patterns, conventions, architecture, or supporting tooling. Also use it for questions about Effect patterns, services, layers, schemas, streams, runtimes, or typed error handling.
 ---
 
-# Effect-TS Expert Guide
+# Effect Expert
 
-Effect-TS is a functional TypeScript library providing typed effects, structured concurrency, and a robust runtime. This skill covers correct usage patterns and addresses common misconceptions from LLM-generated content.
+Expert guidance for programming with the Effect library, covering error handling, dependency injection, composability, and testing patterns.
 
-## Quick Reference
+## Prerequisite
 
-```typescript
-import { Effect, Layer, Context, Fiber, Schedule, Cache, Scope } from "effect";
-import { Schema, JSONSchema } from "@effect/schema";
-```
+Before doing any other Effect-related work, check that `./.repos/effect` exists at the root of the repository where the skill is being used.
 
-**Core Type Signature:**
-```typescript
-Effect<Success, Error, Requirements>
-//      ↑        ↑       ↑
-//      |        |       └── Dependencies (provided via Layers)
-//      |        └── Expected errors (typed, must be handled)
-//      └── Success value
-```
+If it does not exist, stop and prompt the user with the setup task documented in `./references/setup.md`.
 
----
+## Research Strategy
 
-## Common Misconceptions
+Effect has many ways to accomplish the same task. Proactively research best practices when working with Effect patterns, especially for moderate to high complexity tasks.
 
-**LLM outputs often contain incorrect APIs.** Use this table to correct them:
+Use the local guides in `./references/` first. They are the preferred source for best practices, conventions, and common implementation patterns.
 
-| Wrong (common in AI outputs) | Correct |
-|------------------------------|---------|
-| `Effect.cachedWithTTL(...)` | `Cache.make({ timeToLive: Duration })` |
-| `Effect.cachedInvalidateWithTTL(...)` | `cache.invalidate(key)` / `cache.invalidateAll()` |
-| `Effect.match(...)` | `Effect.either` + `Either.match`, or `Effect.catchTag` |
-| "thread-local storage" | "fiber-local storage" via `FiberRef` |
-| JSON Schema Draft 2020-12 | `@effect/schema` generates **Draft-07** |
-| fibers are "cancelled" | fibers are "terminated" or "interrupted" |
-| all queues have back-pressure | only **bounded** queues; sliding/dropping do not |
-| `--only=production` | `--omit=dev` (npm 7+) |
+Only go directly to the vendored Effect repo when:
 
----
+- the guides do not cover the question
+- you need exact API details or signatures
+- you need deeper implementation details
+- you need to verify a behavior against the source
 
-## Error Handling: Two Error Types
+### Research Sources
 
-Effect distinguishes between:
+1. Local skill guides first. Start with the relevant files in `./references/` before doing deeper research.
+2. Codebase patterns second. Examine similar patterns in the current project before implementing. If Effect patterns already exist, follow them for consistency. If no patterns exist, skip this step.
+3. Effect source code last. For gaps in the guides, complex type errors, unclear behavior, or implementation details, examine the vendored Effect source at `./.repos/effect/packages/effect/src/`.
 
-1. **Expected Errors (Failures)** - Typed in `E` channel, must be handled
-2. **Unexpected Errors (Defects)** - Runtime bugs, captured but not typed
+### When To Research
 
-```typescript
-// Expected error - typed
-const fetchUser = (id: string): Effect.Effect<User, UserNotFoundError | NetworkError> => ...
+- Always research for services, layers, or complex dependency injection.
+- Always research for error handling with multiple error types or complex error hierarchies.
+- Always research for stream-based operations and reactive patterns.
+- Always research for resource management with scoped effects and cleanup.
+- Always research for concurrent or performance-critical code.
+- Always research for unfamiliar testing patterns.
+- Research when needed for complex refactors from promises or try/catch into Effect.
+- Research when needed for new service dependencies or layer restructuring.
+- Research when needed for custom error types or extensions of existing error hierarchies.
+- Research when needed for integrations with external systems such as databases, APIs, or third-party services.
 
-// Handle expected errors
-const handled = pipe(
-  fetchUser("123"),
-  Effect.catchTag("UserNotFoundError", (e) => Effect.succeed(defaultUser)),
-  Effect.catchTag("NetworkError", (e) => Effect.retry(schedule))
-);
+### Research Approach
 
-// Unexpected errors (defects) - captured by runtime
-Effect.catchAllDefect(program, (defect) =>
-  Console.error("Unexpected error", defect)
-);
-```
+- Focus on canonical, readable, and maintainable solutions rather than clever optimizations.
+- Verify suggested approaches against existing codebase patterns when those patterns exist.
+- When multiple approaches are possible, prefer the most idiomatic Effect solution supported by the codebase and the vendored source.
 
----
+### Codebase Pattern Discovery
 
-## Fibers & Cancellation (Critical for MCP)
+When working in a project that uses Effect, check for existing patterns before implementing new code:
 
-Fibers are lightweight virtual threads with **native interruption**:
+1. Search for Effect imports and existing module usage to understand current conventions.
+2. Identify how services and layers are structured in the project.
+3. Note how errors are defined and propagated.
+4. Examine how Effect code is tested in the project.
 
-```typescript
-// Fork a fiber
-const fiber = yield* Effect.fork(longRunningTask);
+If no Effect patterns exist in the codebase, proceed using canonical patterns from the vendored Effect source and examples. Do not block on missing codebase patterns.
 
-// Interrupt it (e.g., when MCP client disconnects)
-yield* Fiber.interrupt(fiber);
+### Feature Discovery
 
-// Structured concurrency: child fibers auto-terminate with parent
-const parent = Effect.gen(function* () {
-  yield* Effect.fork(backgroundTask);  // Auto-interrupted when parent ends
-  yield* mainTask;
-});
+When you need to discover available Effect modules, packages, or capabilities, search `./references/features.md` first.
 
-// Daemon fibers outlive their parent
-yield* Effect.forkDaemon(longLivedBackgroundTask);
-```
+- Use it to identify the right package or module for a task.
+- Use the listed repo paths to jump directly into the vendored source under `./.repos/effect`.
+- Use it before inventing custom abstractions when Effect may already provide the functionality.
 
----
+### Guide Discovery
 
-## Concurrency Primitives
-
-### Effect.race - First Wins, Losers Interrupted
+When the task touches one of these areas, consult the matching guide before implementing:
 
-```typescript
-// First to succeed wins; other is automatically interrupted
-const result = yield* Effect.race(
-  fetchFromCache,
-  fetchFromDatabase
-);
-```
+- `./references/guide-effect.md` for core `Effect` usage patterns, common constructors, composition, provisioning, and runtime boundaries
+- `./references/guide-error-handling.md` for defining errors, schema-based errors, failure handling, defects, and interrupts
+- `./references/guide-layers.md` for services, layer construction, composition, and provisioning patterns
+- `./references/guide-observability.md` for `Effect.fn`, spans, logging, metrics, and telemetry wiring
+- `./references/guide-retries.md` for retry policies, retry conditions, fallback strategies, and `ExecutionPlan`
+- `./references/guide-schedule.md` for retries, repeats, backoff, polling, cron, and schedule composition
+- `./references/guide-schema.md` for schema design, transformations, unions, recursion, opaque/branded types, and schema best practices
+- `./references/guide-sql.md` for Effect SQL usage, transactions, resolvers, schema-aware SQL, and migrations
+- `./references/guide-testing.md` for detailed `@effect/vitest` usage, layered test setup, property tests, and test services
 
-### Effect.all with Concurrency Control
-
-```typescript
-// Process 50 documents with max 5 concurrent
-const results = yield* Effect.all(documents.map(processDoc), {
-  concurrency: 5  // NOT a "worker pool" - limits concurrent tasks
-});
-```
+These guides should be treated as the default implementation guidance. Do not skip them and jump straight to `./.repos/effect` unless you need source-level confirmation or the guides do not answer the question.
 
-### Queue Types
-
-```typescript
-// Bounded - applies back-pressure (offer suspends when full)
-const bounded = yield* Queue.bounded<string>(100);
-
-// Dropping - discards new items when full (no back-pressure)
-const dropping = yield* Queue.dropping<string>(100);
+## Effect Principles
 
-// Sliding - discards oldest items when full (no back-pressure)
-const sliding = yield* Queue.sliding<string>(100);
-```
+Apply these core principles when writing Effect code.
 
----
+## Installation
 
-## Layers for Dependency Injection
+When installing Effect packages in a user repository:
 
-Layers construct services without leaking dependencies:
+- use `effect@beta`
+- keep all `@effect/*` packages on aligned versions
+- install only the packages needed for the user's runtime and actual task
 
-```typescript
-// Define a service
-class Database extends Context.Tag("Database")<
-  Database,
-  { query: (sql: string) => Effect.Effect<Result> }
->() {}
+### Version Rules
 
-// Create layer (dependencies handled at construction)
-const DatabaseLive = Layer.effect(
-  Database,
-  Effect.gen(function* () {
-    const config = yield* Config;  // Dependency injected here
-    return {
-      query: (sql) => Effect.tryPromise(() => runQuery(sql, config))
-    };
-  })
-);
+- `effect` should be installed as `effect@beta`
+- if you install any `@effect/*` package, make sure all `@effect/*` packages use matching versions
+- do not mix unrelated `@effect/*` versions in the same project
 
-// Provide to program
-const runnable = program.pipe(Effect.provide(DatabaseLive));
+### Package Selection
 
-// For testing - swap implementation
-const DatabaseTest = Layer.succeed(Database, {
-  query: () => Effect.succeed(mockResult)
-});
-```
+Choose packages based on the runtime and the work being done.
 
----
+- core library: `effect@beta`
+- Node.js runtime needs: install the matching `@effect/platform-node`
+- browser runtime needs: install the matching `@effect/platform-browser`
+- Bun runtime needs: install the matching `@effect/platform-bun`
+- Vitest integration needs: install the matching `@effect/vitest`
+- OpenTelemetry integration needs: install the matching `@effect/opentelemetry`
 
-## Resource Management
+Install additional `@effect/*` packages only when the user task actually needs them.
 
-### Effect.ensuring - Always Runs Finalizer
+### Practical Rule
 
-```typescript
-const program = pipe(
-  Effect.tryPromise(() => openConnection()),
-  Effect.ensuring(Console.log("Cleanup"))  // Runs on success, failure, OR interrupt
-);
-```
+- start with `effect@beta`
+- add `@effect/*` packages as needed by runtime and features
+- keep the full installed Effect package set version-aligned
 
-### acquireUseRelease Pattern
+### Error Handling
 
-```typescript
-const withConnection = Effect.acquireUseRelease(
-  Effect.tryPromise(() => db.connect()),     // Acquire
-  (conn) => Effect.tryPromise(() => conn.query("SELECT *")),  // Use
-  (conn) => Effect.promise(() => conn.close())  // Release (always runs)
-);
-```
+- Use Effect's typed error system instead of throwing exceptions.
+- Define descriptive error types with proper error propagation.
+- Prefer `Schema.TaggedErrorClass` when the error can be schema-defined.
+- Use `Effect.fail`, `Effect.catchTag`, and `Effect.catch` for error control flow.
 
-### Scope for Resource Lifecycle
+### Dependency Injection
 
-```typescript
-Effect.scoped(
-  Effect.gen(function* () {
-    const file = yield* openFile("data.txt");  // Acquired
-    const data = yield* file.read();
-    return data;
-  })  // File automatically released when scope closes
-);
-```
+- Implement dependency injection using services and layers.
+- Define services with `Context.Tag`.
+- Compose layers with `Layer.merge` and `Layer.provide`.
+- Use `Effect.provide` to inject dependencies at the edge, avoid providing locally.
+- Keep services encapsulated; avoid exporting trivial accessor wrappers that only forward to one service method.
 
----
+### Composability
 
-## Caching
+- Leverage Effect composability for complex operations.
+- Use appropriate constructors such as `Effect.succeed`, `Effect.fail`, `Effect.tryPromise`, `Effect.try`, and `Effect.sync`.
+- Apply proper resource management with scoped effects.
+- Chain operations with `Effect.flatMap`, `Effect.map`, and `Effect.tap`.
 
-**There is no `Effect.cachedWithTTL`.** Use the Cache module:
+### Business Logic Functions
 
-```typescript
-import { Cache } from "effect";
+- Prefer `Effect.fn` for reusable business-logic functions that return `Effect`.
+- Prefer `Effect.fn` over raw `Effect.gen` definitions even when the function takes no arguments.
+- If you do not want an explicit named span, use `Effect.fn` without a span name.
+- Do not use `Effect.fnUntraced` as the default.
+- Use `Effect.fnUntraced` only for edge cases with a concrete low-level reason, such as measured hot-path overhead.
 
-const cache = yield* Cache.make({
-  capacity: 100,
-  timeToLive: Duration.minutes(5),
-  lookup: (key: string) => fetchExpensiveData(key)
-});
+### TypeScript Preferences
 
-// Use the cache
-const value = yield* cache.get("my-key");
+- Never use `any`.
+- Never use `as` casts.
+- Never use unsafe type assertions or escape hatches.
+- Never use `namespace`.
+- Prefer correct typing, schema-driven decoding, narrowing, and proper generic constraints instead of forcing types.
+- If a value comes from an external boundary, validate or decode it instead of asserting its type.
+- If a type is hard to express, simplify the design or introduce a properly typed helper instead of using unsafe TypeScript.
+- For layers, do not hide them inside `namespace` blocks. Prefer either `static` members on the service class or plain exported layer constants.
 
-// Invalidate
-yield* cache.invalidate("my-key");
-yield* cache.invalidateAll();
-```
+### Code Quality
 
----
+- Write type-safe code that leverages Effect's type system.
+- Use `Effect.gen` for readable sequential code.
+- Implement proper testing patterns using Effect testing utilities.
+- Prefer existing Effect primitives before introducing custom helpers.
+- Prefer `Schema.Class` / `Schema.TaggedClass` variants over plain `Schema.Struct` for named reusable schemas when possible.
 
-## Retry with Schedule
+### Explaining Solutions
 
-```typescript
-import { Schedule } from "effect";
+When providing solutions, explain the Effect concepts being used and why they fit the specific use case. If you encounter patterns not covered in local references, prefer consistency with the codebase when possible and otherwise rely on the vendored Effect source.
 
-// Retry 3 times with exponential backoff
-const policy = Schedule.exponential("100 millis").pipe(
-  Schedule.intersect(Schedule.recurs(3))
-);
+## References
 
-const robust = Effect.retry(unstableOperation, policy);
-
-// Retry until condition
-const untilSuccess = Effect.retry(operation, {
-  until: (err) => err.code === "RATE_LIMITED"
-});
-```
-
----
-
-## Schema & JSON Schema
-
-`@effect/schema` generates **JSON Schema Draft-07** (not 2020-12):
-
-```typescript
-import { Schema, JSONSchema } from "@effect/schema";
-
-const User = Schema.Struct({
-  id: Schema.String,
-  age: Schema.Number.pipe(Schema.positive())
-});
-
-// Generate JSON Schema (Draft-07)
-const jsonSchema = JSONSchema.make(User);
-// { "$schema": "http://json-schema.org/draft-07/schema#", ... }
-
-// Decode (parse)
-const user = Schema.decodeUnknownSync(User)(rawData);
-
-// Encode
-const json = Schema.encodeSync(User)(user);
-```
-
----
-
-## Observability & OpenTelemetry
-
-Effect has native OpenTelemetry integration:
-
-```typescript
-import { NodeSdk } from "@effect/opentelemetry";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
-
-// Add tracing to any effect
-const traced = Effect.withSpan("processRequest")(myEffect);
-
-// Logging with context
-yield* Effect.log("Processing request");
-yield* Effect.annotateLogs("requestId", "abc-123");
-
-// FiberRef for fiber-local context propagation
-const RequestId = FiberRef.unsafeMake<string>("");
-yield* FiberRef.set(RequestId, "req-456");
-```
-
----
-
-## When NOT to Use Effect
-
-| Scenario | Recommendation |
-|----------|----------------|
-| Simple MCP tool (< 100 LOC) | Use FastMCP or vanilla SDK |
-| Team unfamiliar with FP | Steep learning curve; consider NestJS |
-| Bundle size critical | Effect adds 15-25kb gzipped minimum |
-| Existing NestJS/TypeORM codebase | Impedance mismatch with class-based DI |
-
----
-
-## MCP Server Patterns
-
-### Tool Handler with Typed Errors
-
-```typescript
-const searchTool = Effect.gen(function* () {
-  const args = yield* parseArgs(input);
-  const db = yield* Database;
-  const results = yield* db.query(args.query);
-  return formatResults(results);
-}).pipe(
-  Effect.catchTag("ParseError", () =>
-    Effect.fail({ code: -32602, message: "Invalid params" })
-  ),
-  Effect.catchTag("DatabaseError", () =>
-    Effect.fail({ code: -32603, message: "Internal error" })
-  )
-);
-```
-
-### Request Scoping
-
-```typescript
-// Each MCP request gets its own scope
-const handleRequest = (request: MCPRequest) =>
-  Effect.scoped(
-    Effect.gen(function* () {
-      // Resources acquired here auto-release when request completes
-      const tempFile = yield* createTempFile();
-      const result = yield* processRequest(request, tempFile);
-      return result;
-    })
-  );
-```
-
----
-
-## Resources
-
-- [Effect Documentation](https://effect.website/docs)
-- [Effect GitHub](https://github.com/Effect-TS/effect)
-- [@effect/schema JSON Schema](https://effect.website/docs/schema/json-schema/)
-- [@effect/opentelemetry](https://github.com/Effect-TS/effect/tree/main/packages/opentelemetry)
+- `./references/features.md`
+- `./references/guide-effect.md`
+- `./references/guide-error-handling.md`
+- `./references/guide-layers.md`
+- `./references/guide-observability.md`
+- `./references/guide-retries.md`
+- `./references/guide-schedule.md`
+- `./references/guide-schema.md`
+- `./references/guide-sql.md`
+- `./references/guide-testing.md`
+- `./references/setup.md`

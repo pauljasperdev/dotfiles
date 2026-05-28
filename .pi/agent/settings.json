@@ -11,6 +11,6 @@
     "npm:pi-subagents"
   ],
   "compaction": {
-    "enabled": false
+    "enabled": true
   }
 }
