@@ -35,7 +35,8 @@ return {
 				["<C-k>"] = { "select_prev", "fallback" },
 				["<C-d>"] = { "scroll_documentation_down", "fallback" },
 				["<C-u>"] = { "scroll_documentation_up", "fallback" },
-				["<S-Tab>"] = { "snippet_backward", "fallback" },
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 			},
 			signature = {
 				enabled = true,
@@ -51,7 +52,7 @@ return {
 						should_show_items = function(ctx)
 							return not (
 								ctx.trigger.initial_kind == "manual"
-									or ctx.trigger.initial_kind == "trigger_character"
+								or ctx.trigger.initial_kind == "trigger_character"
 							)
 						end,
 					},
