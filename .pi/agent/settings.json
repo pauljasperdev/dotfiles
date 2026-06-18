@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.74.0",
+  "lastChangelogVersion": "0.79.1",
   "theme": "catppuccin-mocha",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.5",
@@ -12,5 +12,26 @@
   ],
   "compaction": {
     "enabled": true
+  },
+  "transport": "auto",
+  "enabledModels": [
+    "openai-codex/gpt-5.3-codex-spark",
+    "openai-codex/gpt-5.5"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "scout": {
+        "model": "openai-codex/gpt-5.3-codex-spark",
+        "thinking": "low"
+      },
+      "delegate": {
+        "model": "openai-codex/gpt-5.3-codex-spark",
+        "thinking": "low"
+      },
+      "researcher": {
+        "model": "openai-codex/gpt-5.3-codex-spark",
+        "thinking": "medium"
+      }
+    }
   }
 }

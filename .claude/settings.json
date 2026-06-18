@@ -3,6 +3,7 @@
     "BASH_DEFAULT_TIMEOUT_MS": "600000",
     "BASH_MAX_TIMEOUT_MS": "1800000"
   },
+  "model": "opus",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -31,10 +32,14 @@
     ]
   },
   "effortLevel": "high",
+  "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "preferences": {
     "codeStyle": {
       "gitCommitCoAuthor": false
     }
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true
   }
 }
