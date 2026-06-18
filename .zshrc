@@ -208,6 +208,14 @@ function ff {
   [[ -n "$file" ]] && nvim "$file"
 }
 
+# pnpm
+export PNPM_HOME="/Users/paul/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+
 # env variables
 export CONTEXT7_API_KEY="$(security find-generic-password -a "$USER" -s "context7-api-key" -w)"
 export GEMHOG_API_KEY="$(security find-generic-password -a "$USER" -s "gemhog-api-key" -w)"
@@ -216,3 +224,5 @@ export GEMHOG_API_KEY="$(security find-generic-password -a "$USER" -s "gemhog-ap
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
+
+
